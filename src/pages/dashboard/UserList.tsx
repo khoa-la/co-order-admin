@@ -1,5 +1,5 @@
 import { paramCase } from 'change-case';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -42,6 +42,8 @@ import {
 } from '../../components/table';
 // sections
 import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/list';
+import ResoTable from 'src/components/table/reso-table/ResoTable';
+import { UseFormReturn } from 'react-hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -69,6 +71,30 @@ const TABLE_HEAD = [
   { id: '' },
 ];
 
+const data = [
+  {
+    id: 1,
+    name: 'A',
+    age: 18,
+  },
+  {
+    id: 2,
+    name: 'B',
+    age: 21,
+  },
+];
+const columns = [
+  {
+    title: 'STT',
+    dataIndex: 'name',
+    hideInSearch: true,
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+  },
+];
+
 // ----------------------------------------------------------------------
 
 export default function UserList() {
@@ -90,6 +116,8 @@ export default function UserList() {
     onChangePage,
     onChangeRowsPerPage,
   } = useTable();
+
+  const ref = useRef<{ reload: Function; formControl: UseFormReturn<any> }>();
 
   const { themeStretch } = useSettings();
 
@@ -166,6 +194,7 @@ export default function UserList() {
         />
 
         <Card>
+          {/* <ResoTable rowKey="id" ref={ref} dataSource={data} columns={columns} /> */}
           <Tabs
             allowScrollButtonsMobile
             variant="scrollable"
