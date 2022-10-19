@@ -42,7 +42,6 @@ import {
 } from '../../components/table';
 // sections
 import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/list';
-import ResoTable from 'src/components/table/reso-table/ResoTable';
 import { UseFormReturn } from 'react-hook-form';
 
 // ----------------------------------------------------------------------
