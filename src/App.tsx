@@ -21,14 +21,14 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <MotionLazyContainer>
         <ThemeProvider>
-          <ThemeSettings>
-            <NotistackProvider>
-              <ProgressBarStyle />
-              <ChartStyle />
-              <ScrollToTop />
-              <Router />
-            </NotistackProvider>
-          </ThemeSettings>
+          {/* <ThemeSettings> */}
+          <NotistackProvider>
+            <ProgressBarStyle />
+            <ChartStyle />
+            <ScrollToTop />
+            <Router />
+          </NotistackProvider>
+          {/* </ThemeSettings> */}
         </ThemeProvider>
       </MotionLazyContainer>
       <ReactQueryDevtools initialIsOpen={false} position={'bottom-right'} />

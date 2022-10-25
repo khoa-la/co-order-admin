@@ -82,20 +82,18 @@ type AuthProviderProps = {
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(JWTReducer, initialState);
-  console.log(state);
 
   useEffect(() => {
     const initialize = async () => {
       try {
         const accessToken = localStorage.getItem('accessToken');
-        console.log(accessToken);
 
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get('/api/v1/users');
+          const response = await axios.get('/users');
           console.log(response);
-          const { user } = response.data;
+          const user = response.data;
 
           dispatch({
             type: Types.Initial,
@@ -136,28 +134,13 @@ function AuthProvider({ children }: AuthProviderProps) {
   const loginWithGoogle = () => {
     signInWithPopup(auth, googleProvider).then(async (result) => {
       const resultUser: any = result.user;
-      console.log(resultUser);
-      dispatch({
-        type: Types.Initial,
-        payload: {
-          isAuthenticated: true,
-          user: {
-            id: resultUser?.uid,
-            email: resultUser?.email || '',
-            photoURL: state?.user?.imageUrl || '',
-            displayName: state?.user?.name || state?.user?.fullName || '',
-            role: state?.user?.role || '',
-            phoneNumber: state?.user?.phone || '',
-            address: state?.user?.address || '',
-          },
-        },
-      });
 
       const response = await request.post(`/oauth2/authorize`, {
         idToken: resultUser.accessToken,
       });
       const { accessToken } = response?.data?.data;
-      const user = response?.data?.data;
+      const user = response?.data?.data?.customer;
+      console.log(user);
       setSession(accessToken);
 
       dispatch({
