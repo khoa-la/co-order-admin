@@ -101,6 +101,13 @@ const navConfig = [
           { title: 'create', path: PATH_DASHBOARD.blog.new },
         ],
       },
+
+      // AREA
+      {
+        title: 'area',
+        path: PATH_DASHBOARD.area.root,
+        icon: ICONS.invoice,
+      },
     ],
   },
 

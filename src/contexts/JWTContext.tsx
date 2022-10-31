@@ -91,8 +91,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get('/users');
-          console.log(response);
+          const response = await axios.get('/users/me');
           const user = response.data;
 
           dispatch({
@@ -139,9 +138,10 @@ function AuthProvider({ children }: AuthProviderProps) {
         idToken: resultUser.accessToken,
       });
       const { accessToken } = response?.data?.data;
-      const user = response?.data?.data?.customer;
-      console.log(user);
       setSession(accessToken);
+      const res = await axios.get('/users/me');
+      const user = res.data;
+      console.log(user);
 
       dispatch({
         type: Types.Login,

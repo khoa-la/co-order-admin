@@ -64,7 +64,7 @@ const StickyLeftTableCell = withStyles((theme) => ({
     minWidth: '50px',
     left: '0',
     position: 'sticky',
-    zIndex: theme.zIndex.modal,
+    zIndex: 1,
     backgroundColor: theme.palette.primary.main,
   },
 }))(TableCell);
@@ -74,13 +74,13 @@ const StickyRightTableCell = withStyles((theme) => ({
     // color: theme.palette.common.white,
     right: 0,
     position: 'sticky',
-    zIndex: theme.zIndex.modal,
+    zIndex: 1,
   },
   body: {
     minWidth: '50px',
     right: '0',
     position: 'sticky',
-    zIndex: theme.zIndex.modal,
+    zIndex: 1,
     backgroundColor: 'white',
     // borderLeft: `1px solid ${theme.palette.grey[400]}`
   },
@@ -188,12 +188,12 @@ const ResoTable = (
       return getData({
         ...transformParamToHyphen({ ...params.filters, ..._filters }),
         page: params.current,
-        pageSize: params.pageSize,
+        size: params.size,
       });
     },
     {
       defaultPageSize: 25,
-      defaultParams: [{ current: 1, pageSize: 50 }],
+      defaultParams: [{ current: 1, size: 50 }],
       formatResult: (res) => ({
         // total: dataSource ? dataSource.length : res.data.metadata?.total,
         // list: dataSource ?? res.data?.data ?? [],

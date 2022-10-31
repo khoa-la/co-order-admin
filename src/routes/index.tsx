@@ -142,6 +142,16 @@ export default function Router() {
         { path: 'calendar', element: <Calendar /> },
         { path: 'kanban', element: <Kanban /> },
         { path: 'permission-denied', element: <PermissionDenied /> },
+        {
+          path: 'area',
+          children: [
+            { element: <Navigate to="/dashboard/area/list" replace />, index: true },
+            { path: 'list', element: <AreaList /> },
+            { path: ':id', element: <InvoiceDetails /> },
+            { path: ':id/edit', element: <InvoiceEdit /> },
+            { path: 'new', element: <InvoiceCreate /> },
+          ],
+        },
       ],
     },
 
@@ -242,3 +252,5 @@ const Payment = Loadable(lazy(() => import('../pages/Payment')));
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));
 const Page403 = Loadable(lazy(() => import('../pages/Page403')));
 const Page404 = Loadable(lazy(() => import('../pages/Page404')));
+
+const AreaList = Loadable(lazy(() => import('../pages/areas')));

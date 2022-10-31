@@ -18,7 +18,7 @@ export default function ThemeSettings({ children }: Props) {
         <ThemeLocalization>
           <ThemeRtlLayout>
             {children}
-            <SettingsDrawer />
+            {/* <SettingsDrawer /> */}
           </ThemeRtlLayout>
         </ThemeLocalization>
       </ThemeContrast>

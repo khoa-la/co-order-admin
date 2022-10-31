@@ -4,7 +4,7 @@ import { HOST_API } from '../config';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: HOST_API,
 });
 
