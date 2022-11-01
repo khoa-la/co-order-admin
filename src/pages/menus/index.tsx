@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Button, Dialog, Stack } from '@mui/material';
-import areaApi from 'apis/area';
+import menuApi from 'apis/menu';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Iconify from 'components/Iconify';
 import Page from 'components/Page';
@@ -13,26 +13,21 @@ import { useQuery } from 'react-query';
 import { PATH_DASHBOARD } from 'routes/paths';
 import request from 'utils/axios';
 import DeleteConfirmDialog from 'components/DeleteConfirmDialog';
-import { TArea } from 'types/area';
+import { TMenu } from 'types/menu';
 import { useSnackbar } from 'notistack';
 import { get } from 'lodash';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-function AreaListPage() {
-  // const { data: user } = useQuery(['areas'], () => areaApi.getAreas, {
-  //   select: (res) => res,
-  // });
-  // console.log(user);
-
+function MenuListPage() {
   const { translate } = useLocales();
   const { enqueueSnackbar } = useSnackbar();
   const ref = useRef<{ reload: Function; formControl: UseFormReturn<any> }>();
-  const [currentItem, setCurrentItem] = useState<TArea | null>(null);
+  const [currentItem, setCurrentItem] = useState<TMenu | null>(null);
   const [formModal, setFormModal] = useState(false);
 
-  const deleteAreaHandler = () =>
-    areaApi
+  const deleteMenuHandler = () =>
+    menuApi
       .delete(currentItem?.id!)
       .then(() => setCurrentItem(null))
       .then(() => ref.current?.reload)
@@ -59,29 +54,17 @@ function AreaListPage() {
       dataIndex: 'name',
     },
     {
-      title: 'Mô tả',
-      dataIndex: 'description',
+      title: 'Ngày hoạt động',
+      dataIndex: 'dayFilter',
     },
     {
-      title: 'Phí ship',
-      dataIndex: 'shippingFee',
+      title: 'Giờ hoạt động',
+      dataIndex: 'hourFilter',
     },
-    // {
-    //   title: 'Kích hoạt',
-    //   dataIndex: 'active',
-    //   hideInSearch: true,
-    //   render: (active: any) => {
-    //     <Iconify
-    //       icon={active ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
-    //       sx={{
-    //         width: 20,
-    //         height: 20,
-    //         color: 'success.main',
-    //         ...(!active && { color: 'warning.main' }),
-    //       }}
-    //     />;
-    //   },
-    // },
+    {
+      title: 'Dạng menu',
+      dataIndex: 'type',
+    },
     {
       title: 'Ngày tạo',
       dataIndex: 'createdDate',
@@ -92,7 +75,7 @@ function AreaListPage() {
 
   return (
     <Page
-      title={`Area`}
+      title={`Menu`}
       isTable
       content={
         <HeaderBreadcrumbs
@@ -100,8 +83,8 @@ function AreaListPage() {
           links={[
             { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Areas`,
-              href: PATH_DASHBOARD.area.root,
+              name: `Menus`,
+              href: PATH_DASHBOARD.menu.root,
             },
             { name: `${translate('list')}` },
           ]}
@@ -109,19 +92,19 @@ function AreaListPage() {
       }
       actions={() => [
         <Button
-          key="create-area"
+          key="create-menu"
           component={RouterLink}
           variant="contained"
-          to={PATH_DASHBOARD.area.new}
+          to={PATH_DASHBOARD.menu.new}
           startIcon={<Iconify icon={'eva:plus-fill'} />}
         >
-          {`Tạo khu vực`}
+          {`Tạo menu`}
         </Button>,
         <DeleteConfirmDialog
           key={''}
           open={Boolean(currentItem)}
           onClose={() => setCurrentItem(null)}
-          onDelete={deleteAreaHandler}
+          onDelete={deleteMenuHandler}
           title={
             <>
               {translate('common.confirmDeleteTitle')} <strong>{currentItem?.name}</strong>
@@ -142,7 +125,7 @@ function AreaListPage() {
           //   setIsUpdate(true);
           // }}
           // onView={(course: any) => navigate(`${PATH_DASHBOARD.courses.root}/${course.id}/view`)}
-          getData={areaApi.getAreas}
+          getData={menuApi.getMenus}
           onDelete={setCurrentItem}
           columns={columns}
         />
@@ -151,4 +134,4 @@ function AreaListPage() {
   );
 }
 
-export default AreaListPage;
+export default MenuListPage;

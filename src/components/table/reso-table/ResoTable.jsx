@@ -197,8 +197,8 @@ const ResoTable = (
       formatResult: (res) => ({
         // total: dataSource ? dataSource.length : res.data.metadata?.total,
         // list: dataSource ?? res.data?.data ?? [],
-        total: dataSource ? dataSource.length : res.totalNumberOfRecords,
-        list: dataSource ?? res.results ?? [],
+        total: dataSource ? dataSource.length : res.data.metadata?.total,
+        list: dataSource ?? res.data?.data ?? [],
         success: true,
       }),
       onError: (error) =>
@@ -212,6 +212,7 @@ const ResoTable = (
   );
   const { current, pageSize, total } = tableProps?.pagination ?? {};
 
+  console.log('data', data);
   // const navigate = useNavigate();
   // useEffect(() => {
   //   const queryStrings = {

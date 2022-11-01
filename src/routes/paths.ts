@@ -99,6 +99,27 @@ export const PATH_DASHBOARD = {
     view: (id: string) => path(ROOTS_DASHBOARD, `/area/${id}`),
     edit: (id: string) => path(ROOTS_DASHBOARD, `/area/${id}/edit`),
   },
+  location: {
+    root: path(ROOTS_DASHBOARD, '/location'),
+    list: path(ROOTS_DASHBOARD, '/location/list'),
+    new: path(ROOTS_DASHBOARD, '/location/new'),
+    view: (id: string) => path(ROOTS_DASHBOARD, `/location/${id}`),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/location /${id}/edit`),
+  },
+  category: {
+    root: path(ROOTS_DASHBOARD, '/category'),
+    list: path(ROOTS_DASHBOARD, '/category/list'),
+    new: path(ROOTS_DASHBOARD, '/category/new'),
+    view: (id: string) => path(ROOTS_DASHBOARD, `/category/${id}`),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/category /${id}/edit`),
+  },
+  menu: {
+    root: path(ROOTS_DASHBOARD, '/menu'),
+    list: path(ROOTS_DASHBOARD, '/menu/list'),
+    new: path(ROOTS_DASHBOARD, '/menu/new'),
+    view: (id: string) => path(ROOTS_DASHBOARD, `/menu/${id}`),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/menu /${id}/edit`),
+  },
 };
 
 export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';

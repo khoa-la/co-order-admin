@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Button, Dialog, Stack } from '@mui/material';
-import areaApi from 'apis/area';
+import { Avatar, Button, Dialog, Stack } from '@mui/material';
+import categoryApi from 'apis/category';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Iconify from 'components/Iconify';
 import Page from 'components/Page';
@@ -13,26 +13,21 @@ import { useQuery } from 'react-query';
 import { PATH_DASHBOARD } from 'routes/paths';
 import request from 'utils/axios';
 import DeleteConfirmDialog from 'components/DeleteConfirmDialog';
-import { TArea } from 'types/area';
+import { TCategory } from 'types/category';
 import { useSnackbar } from 'notistack';
 import { get } from 'lodash';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-function AreaListPage() {
-  // const { data: user } = useQuery(['areas'], () => areaApi.getAreas, {
-  //   select: (res) => res,
-  // });
-  // console.log(user);
-
+function CategoryListPage() {
   const { translate } = useLocales();
   const { enqueueSnackbar } = useSnackbar();
   const ref = useRef<{ reload: Function; formControl: UseFormReturn<any> }>();
-  const [currentItem, setCurrentItem] = useState<TArea | null>(null);
+  const [currentItem, setCurrentItem] = useState<TCategory | null>(null);
   const [formModal, setFormModal] = useState(false);
 
-  const deleteAreaHandler = () =>
-    areaApi
+  const deleteCategoryHandler = () =>
+    categoryApi
       .delete(currentItem?.id!)
       .then(() => setCurrentItem(null))
       .then(() => ref.current?.reload)
@@ -55,33 +50,23 @@ function AreaListPage() {
       hideInSearch: true,
     },
     {
-      title: 'Tên khu vực',
+      title: 'Hình ảnh',
+      dataIndex: 'imageUrl',
+      hideInSearch: true,
+      render: (src: any, { title }: any) => (
+        <Avatar alt={title} src={src} style={{ width: '54px', height: '54px' }} />
+      ),
+    },
+    {
+      title: 'Tên danh mục',
       dataIndex: 'name',
     },
     {
-      title: 'Mô tả',
-      dataIndex: 'description',
+      title: 'Ngày cập nhật',
+      dataIndex: 'updatedDate',
+      valueType: 'datetime',
+      hideInSearch: true,
     },
-    {
-      title: 'Phí ship',
-      dataIndex: 'shippingFee',
-    },
-    // {
-    //   title: 'Kích hoạt',
-    //   dataIndex: 'active',
-    //   hideInSearch: true,
-    //   render: (active: any) => {
-    //     <Iconify
-    //       icon={active ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
-    //       sx={{
-    //         width: 20,
-    //         height: 20,
-    //         color: 'success.main',
-    //         ...(!active && { color: 'warning.main' }),
-    //       }}
-    //     />;
-    //   },
-    // },
     {
       title: 'Ngày tạo',
       dataIndex: 'createdDate',
@@ -92,7 +77,7 @@ function AreaListPage() {
 
   return (
     <Page
-      title={`Area`}
+      title={`Category`}
       isTable
       content={
         <HeaderBreadcrumbs
@@ -100,7 +85,7 @@ function AreaListPage() {
           links={[
             { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Areas`,
+              name: `Categories`,
               href: PATH_DASHBOARD.area.root,
             },
             { name: `${translate('list')}` },
@@ -112,16 +97,16 @@ function AreaListPage() {
           key="create-area"
           component={RouterLink}
           variant="contained"
-          to={PATH_DASHBOARD.area.new}
+          to={PATH_DASHBOARD.category.new}
           startIcon={<Iconify icon={'eva:plus-fill'} />}
         >
-          {`Tạo khu vực`}
+          {`Tạo danh mục`}
         </Button>,
         <DeleteConfirmDialog
           key={''}
           open={Boolean(currentItem)}
           onClose={() => setCurrentItem(null)}
-          onDelete={deleteAreaHandler}
+          onDelete={deleteCategoryHandler}
           title={
             <>
               {translate('common.confirmDeleteTitle')} <strong>{currentItem?.name}</strong>
@@ -142,7 +127,7 @@ function AreaListPage() {
           //   setIsUpdate(true);
           // }}
           // onView={(course: any) => navigate(`${PATH_DASHBOARD.courses.root}/${course.id}/view`)}
-          getData={areaApi.getAreas}
+          getData={categoryApi.getCategories}
           onDelete={setCurrentItem}
           columns={columns}
         />
@@ -151,4 +136,4 @@ function AreaListPage() {
   );
 }
 
-export default AreaListPage;
+export default CategoryListPage;

@@ -19,12 +19,7 @@ import { get } from 'lodash';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-function AreaListPage() {
-  // const { data: user } = useQuery(['areas'], () => areaApi.getAreas, {
-  //   select: (res) => res,
-  // });
-  // console.log(user);
-
+function LocationListPage() {
   const { translate } = useLocales();
   const { enqueueSnackbar } = useSnackbar();
   const ref = useRef<{ reload: Function; formControl: UseFormReturn<any> }>();
@@ -151,4 +146,4 @@ function AreaListPage() {
   );
 }
 
-export default AreaListPage;
+export default LocationListPage;

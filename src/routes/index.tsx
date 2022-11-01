@@ -147,9 +147,39 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/area/list" replace />, index: true },
             { path: 'list', element: <AreaList /> },
+            { path: ':id', element: <AreaCreateUpdate /> },
+            { path: ':id/edit', element: <AreaCreateUpdate /> },
+            { path: 'new', element: <AreaCreateUpdate /> },
+          ],
+        },
+        {
+          path: 'location',
+          children: [
+            { element: <Navigate to="/dashboard/location/list" replace />, index: true },
+            { path: 'list', element: <AreaList /> },
             { path: ':id', element: <InvoiceDetails /> },
             { path: ':id/edit', element: <InvoiceEdit /> },
-            { path: 'new', element: <InvoiceCreate /> },
+            { path: 'new', element: <AreaCreateUpdate /> },
+          ],
+        },
+        {
+          path: 'category',
+          children: [
+            { element: <Navigate to="/dashboard/category/list" replace />, index: true },
+            { path: 'list', element: <CategoryList /> },
+            { path: ':id', element: <CategoryCreateUpdate /> },
+            { path: ':id/edit', element: <CategoryCreateUpdate /> },
+            { path: 'new', element: <CategoryCreateUpdate /> },
+          ],
+        },
+        {
+          path: 'menu',
+          children: [
+            { element: <Navigate to="/dashboard/menu/list" replace />, index: true },
+            { path: 'list', element: <MenuList /> },
+            { path: ':id', element: <CategoryCreateUpdate /> },
+            { path: ':id/edit', element: <CategoryCreateUpdate /> },
+            { path: 'new', element: <CategoryCreateUpdate /> },
           ],
         },
       ],
@@ -254,3 +284,9 @@ const Page403 = Loadable(lazy(() => import('../pages/Page403')));
 const Page404 = Loadable(lazy(() => import('../pages/Page404')));
 
 const AreaList = Loadable(lazy(() => import('../pages/areas')));
+const AreaCreateUpdate = Loadable(lazy(() => import('../pages/areas/AreaNewEditForm')));
+const CategoryList = Loadable(lazy(() => import('../pages/categories')));
+const CategoryCreateUpdate = Loadable(
+  lazy(() => import('../pages//categories/CategoryNewEditForm'))
+);
+const MenuList = Loadable(lazy(() => import('../pages/menus')));
