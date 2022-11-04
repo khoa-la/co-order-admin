@@ -33,14 +33,14 @@ const en = {
   booking: `booking`,
   profile: `profile`,
   account: `account`,
-  product: `product`,
+  // product: `product`,
   invoice: `invoice`,
   details: `details`,
   checkout: `checkout`,
   calendar: `calendar`,
   analytics: `analytics`,
   ecommerce: `e-commerce`,
-  management: `management`,
+  management: `Quản lý`,
   menu_level_1: `menu level 1`,
   menu_level_2: `menu level 2`,
   menu_level_3: `menu level 3`,
@@ -51,6 +51,11 @@ const en = {
   other_cases: `other cases`,
   item_by_roles: `item by roles`,
   only_admin_can_see_this_item: `Only admin can see this item`,
+  area: `Khu vực`,
+  category: `Danh mục`,
+  menu: `Thực đơn`,
+  product: `Sản phẩm`,
+  supplier: `Nhà cung cấp`,
 };
 
 export default en;

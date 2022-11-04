@@ -77,7 +77,7 @@ function SupplierListPage() {
 
   return (
     <Page
-      title={`Supplier`}
+      title={`Nhà cung cấp`}
       isTable
       content={
         <HeaderBreadcrumbs
@@ -85,7 +85,7 @@ function SupplierListPage() {
           links={[
             { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Supplier`,
+              name: `Nhà cung cấp`,
               href: PATH_DASHBOARD.supplier.root,
             },
             { name: `${translate('list')}` },
@@ -125,10 +125,10 @@ function SupplierListPage() {
           onEdit={(supplier: any) => {
             navigate(`${PATH_DASHBOARD.supplier.root}/${supplier?.id}/edit`);
           }}
-          onView={(supplier: any) => {
-            console.log(currentItem);
-            navigate(`${PATH_DASHBOARD.supplier.root}/${supplier?.id}`);
-          }}
+          // onView={(supplier: any) => {
+          //   console.log(currentItem);
+          //   navigate(`${PATH_DASHBOARD.supplier.root}/${supplier?.id}`);
+          // }}
           getData={supplierApi.getSuppliers}
           onDelete={setCurrentItem}
           columns={columns}

@@ -92,7 +92,7 @@ function AreaListPage() {
 
   return (
     <Page
-      title={`Area`}
+      title={`Khu vực`}
       isTable
       content={
         <HeaderBreadcrumbs
@@ -100,7 +100,7 @@ function AreaListPage() {
           links={[
             { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Areas`,
+              name: `Khu vực`,
               href: PATH_DASHBOARD.area.root,
             },
             { name: `${translate('list')}` },

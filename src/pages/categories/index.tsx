@@ -77,7 +77,7 @@ function CategoryListPage() {
 
   return (
     <Page
-      title={`Category`}
+      title={`Danh mục`}
       isTable
       content={
         <HeaderBreadcrumbs
@@ -85,7 +85,7 @@ function CategoryListPage() {
           links={[
             { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Categories`,
+              name: `Danh mục`,
               href: PATH_DASHBOARD.area.root,
             },
             { name: `${translate('list')}` },

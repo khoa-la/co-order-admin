@@ -33,40 +33,30 @@ import request from 'utils/axios';
 const ModalProductForm = ({ trigger, onSubmit, selected, type = 'radio' }: any) => {
   const [open, setOpen] = React.useState(false);
   const ref = useRef<any>();
-  const steps = [1, 2];
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState<{
-    [k: number]: boolean;
-  }>({});
-  const totalSteps = () => steps.length;
-  const isLastStep = () => activeStep === totalSteps() - 1;
-  const completedSteps = () => Object.keys(completed).length;
-  const allStepsCompleted = () => completedSteps() === totalSteps();
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
 
   const [selectedProductId, setSelectedProductId] = React.useState();
   const [selectedProduct, setSelectedProduct] = React.useState<TProductInMenu>();
 
+  const schema = yup.object().shape({
+    // name: yup.string().required('Name is required'),
+  });
+
+  const methods = useForm<TProductInMenu>({
+    resolver: yupResolver(schema),
+  });
+
+  const {
+    reset,
+    watch,
+    control,
+    setValue,
+    getValues,
+    handleSubmit,
+    formState: { isSubmitting, isDirty },
+  } = methods;
+
   const handleClick = () => {
     setOpen(true);
-  };
-
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
   };
 
   const submit = () =>
@@ -74,11 +64,14 @@ const ModalProductForm = ({ trigger, onSubmit, selected, type = 'radio' }: any) 
       setOpen(false)
     );
 
-  const handleChangeSelection = React.useCallback((id, data) => {
-    setSelectedProductId(id);
-    setSelectedProduct(data);
-    setValue('productId', Number(id));
-  }, []);
+  const handleChangeSelection = React.useCallback(
+    (id, data) => {
+      setSelectedProductId(id);
+      setSelectedProduct(data);
+      setValue('productId', Number(id));
+    },
+    [setValue]
+  );
 
   const { id: menuId } = useParams();
   const { enqueueSnackbar } = useSnackbar();
@@ -100,23 +93,6 @@ const ModalProductForm = ({ trigger, onSubmit, selected, type = 'radio' }: any) 
       });
     }
   };
-  const schema = yup.object().shape({
-    // name: yup.string().required('Name is required'),
-  });
-
-  const methods = useForm<TProductInMenu>({
-    resolver: yupResolver(schema),
-  });
-
-  const {
-    reset,
-    watch,
-    control,
-    setValue,
-    getValues,
-    handleSubmit,
-    formState: { isSubmitting, isDirty },
-  } = methods;
 
   return (
     <>
@@ -200,20 +176,8 @@ const ModalProductForm = ({ trigger, onSubmit, selected, type = 'radio' }: any) 
                 <Button variant="outlined" onClick={() => setOpen(false)}>
                   Hủy
                 </Button>
-                <Button variant="contained" onClick={handleBack}>
-                  Quay lại
-                </Button>
-                {/* <LoadingAsyncButton onClick={handleSubmit} variant="contained">
-                Thêm
-              </LoadingAsyncButton> */}
-                <LoadingAsyncButton onClick={handleNext} variant="contained">
-                  {completedSteps() === totalSteps() - 1 ? 'Thêm' : 'Tiếp tục'}
-                </LoadingAsyncButton>
-                {/* <LoadingAsyncButton onClick={isSubmitting} variant="contained">
-                  Thêm
-                </LoadingAsyncButton> */}
                 <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                  {'Save Changes'}
+                  Thêm
                 </LoadingButton>
               </Stack>
             </Box>

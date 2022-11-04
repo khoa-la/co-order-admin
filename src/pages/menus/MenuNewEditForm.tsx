@@ -39,6 +39,7 @@ import menuApi from 'apis/menu';
 import { TMenu } from 'types/menu';
 import Label from 'components/Label';
 import ProductInMenuListPage from './productInMenu';
+import TimeSlotInMenuListPage from './timeSlotInMenu';
 
 function MenuNewEditForm() {
   const { themeStretch } = useSettings();
@@ -279,7 +280,9 @@ function MenuNewEditForm() {
             <TabPanel value="2">
               <ProductInMenuListPage />
             </TabPanel>
-            <TabPanel value="3">Item Three</TabPanel>
+            <TabPanel value="3">
+              <TimeSlotInMenuListPage />
+            </TabPanel>
           </TabContext>
         </Card>
       </Page>

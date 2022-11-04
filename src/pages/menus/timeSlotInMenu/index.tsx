@@ -20,13 +20,13 @@ import { get } from 'lodash';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Avatar from 'components/Avatar';
-import productInMenuApi from 'apis/productInMenu';
-import ModalProductForm from 'pages/products/components/ModalProductForm';
-import { productInMenuColumns } from './config';
-import { TProductInMenu } from 'types/productInMenu';
+import timeSlotInMenuApi from 'apis/timeSlot';
+import { timeSlotInMenuColumns } from './config';
+import { TTimeSlotInMenu } from 'types/timeSlot';
 import { FormProvider } from 'components/hook-form';
+import ModalTimeSlotForm from './ModalTimeSlotForm';
 
-function ProductInMenuListPage() {
+function TimeSlotInMenuListPage() {
   const { translate } = useLocales();
   const { id: menuId } = useParams();
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function ProductInMenuListPage() {
   const [formModal, setFormModal] = useState(false);
 
   const deleteMenuHandler = () =>
-    productInMenuApi
+    timeSlotInMenuApi
       .remove(Number(menuId), currentItem?.id!)
       .then(() => setCurrentItem(null))
       .then(() => ref.current?.reload)
@@ -52,10 +52,9 @@ function ProductInMenuListPage() {
         });
       });
 
-  const addProductToMenu = async (data: TProductInMenu) => {
+  const addTimeSlotToMenu = async (data: TTimeSlotInMenu) => {
     try {
-      console.log(data);
-      await productInMenuApi.create(Number(menuId), data);
+      await timeSlotInMenuApi.create(Number(menuId), data);
       enqueueSnackbar('common.201', {
         variant: 'success',
       });
@@ -73,7 +72,7 @@ function ProductInMenuListPage() {
     name: yup.string().required('Name is required'),
   });
 
-  const methods = useForm<TProductInMenu>({
+  const methods = useForm<TTimeSlotInMenu>({
     resolver: yupResolver(schema),
   });
 
@@ -88,21 +87,12 @@ function ProductInMenuListPage() {
   } = methods;
 
   return (
-    <FormProvider {...methods} methods={methods} onSubmit={handleSubmit(addProductToMenu)}>
+    <FormProvider {...methods} methods={methods} onSubmit={handleSubmit(addTimeSlotToMenu)}>
       <Page
         title={``}
         isTable
         sx={{ m: 2 }}
         actions={() => [
-          // <Button
-          //   key="create-menu"
-          //   component={RouterLink}
-          //   variant="contained"
-          //   to={PATH_DASHBOARD.menu.new}
-          //   startIcon={<Iconify icon={'eva:plus-fill'} />}
-          // >
-          //   {`Thêm sản phẩm vào menu`}
-          // </Button>,
           <DeleteConfirmDialog
             key={''}
             open={Boolean(currentItem)}
@@ -117,9 +107,9 @@ function ProductInMenuListPage() {
         ]}
       >
         <Stack justifyContent="flex-end" mb={2} direction="row" spacing={2}>
-          <ModalProductForm
-            onSubmit={addProductToMenu}
-            trigger={<Button variant="outlined">Thêm sản phẩm</Button>}
+          <ModalTimeSlotForm
+            onSubmit={addTimeSlotToMenu}
+            trigger={<Button variant="outlined">Thêm khung giờ</Button>}
           />
         </Stack>
         <Stack spacing={2}>
@@ -129,9 +119,9 @@ function ProductInMenuListPage() {
             defaultFilters={{
               active: true,
             }}
-            getData={() => productInMenuApi.getProductsInMenu(Number(menuId))}
+            getData={() => timeSlotInMenuApi.getTimeSlotsInMenu(Number(menuId))}
             onDelete={setCurrentItem}
-            columns={productInMenuColumns}
+            columns={timeSlotInMenuColumns}
           />
         </Stack>
       </Page>
@@ -139,4 +129,4 @@ function ProductInMenuListPage() {
   );
 }
 
-export default ProductInMenuListPage;
+export default TimeSlotInMenuListPage;

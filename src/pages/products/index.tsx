@@ -45,7 +45,7 @@ function ProductListPage() {
 
   return (
     <Page
-      title={`Product`}
+      title={`Sản phẩm`}
       isTable
       content={
         <HeaderBreadcrumbs
@@ -53,7 +53,7 @@ function ProductListPage() {
           links={[
             { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Areas`,
+              name: `Sản phẩm`,
               href: PATH_DASHBOARD.area.root,
             },
             { name: `${translate('list')}` },
@@ -93,7 +93,7 @@ function ProductListPage() {
           onEdit={(product: any) => {
             navigate(`${PATH_DASHBOARD.product.root}/${product.id}/edit`);
           }}
-          onView={(product: any) => navigate(`${PATH_DASHBOARD.product.root}/${product.id}`)}
+          // onView={(product: any) => navigate(`${PATH_DASHBOARD.product.root}/${product.id}`)}
           getData={productApi.getProducts}
           onDelete={setCurrentItem}
           columns={productComlumns}
