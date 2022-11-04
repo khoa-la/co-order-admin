@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Button, Dialog, Stack } from '@mui/material';
-import menuApi from 'apis/menu';
+import { Avatar, Button, Dialog, Stack } from '@mui/material';
+import supplierApi from 'apis/supplier';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Iconify from 'components/Iconify';
 import Page from 'components/Page';
@@ -13,22 +13,21 @@ import { useQuery } from 'react-query';
 import { PATH_DASHBOARD } from 'routes/paths';
 import request from 'utils/axios';
 import DeleteConfirmDialog from 'components/DeleteConfirmDialog';
-import { TMenu } from 'types/menu';
+import { TSupplier } from 'types/supplier';
 import { useSnackbar } from 'notistack';
 import { get } from 'lodash';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-function MenuListPage() {
+function SupplierListPage() {
   const { translate } = useLocales();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const ref = useRef<{ reload: Function; formControl: UseFormReturn<any> }>();
-  const [currentItem, setCurrentItem] = useState<TMenu | null>(null);
-  const [formModal, setFormModal] = useState(false);
+  const [currentItem, setCurrentItem] = useState<TSupplier | null>(null);
 
-  const deleteMenuHandler = () =>
-    menuApi
+  const deleteCategoryHandler = () =>
+    supplierApi
       .delete(currentItem?.id!)
       .then(() => setCurrentItem(null))
       .then(() => ref.current?.reload)
@@ -51,20 +50,22 @@ function MenuListPage() {
       hideInSearch: true,
     },
     {
-      title: 'Tên khu vực',
+      title: 'Hình ảnh',
+      dataIndex: 'imageUrl',
+      hideInSearch: true,
+      render: (src: any, { title }: any) => (
+        <Avatar alt={title} src={src} style={{ width: '54px', height: '54px' }} />
+      ),
+    },
+    {
+      title: 'Tên nhà cung cấp',
       dataIndex: 'name',
     },
     {
-      title: 'Ngày hoạt động',
-      dataIndex: 'dayFilter',
-    },
-    {
-      title: 'Giờ hoạt động',
-      dataIndex: 'hourFilter',
-    },
-    {
-      title: 'Dạng menu',
-      dataIndex: 'type',
+      title: 'Ngày cập nhật',
+      dataIndex: 'updatedDate',
+      valueType: 'datetime',
+      hideInSearch: true,
     },
     {
       title: 'Ngày tạo',
@@ -76,7 +77,7 @@ function MenuListPage() {
 
   return (
     <Page
-      title={`Menu`}
+      title={`Supplier`}
       isTable
       content={
         <HeaderBreadcrumbs
@@ -84,8 +85,8 @@ function MenuListPage() {
           links={[
             { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Menus`,
-              href: PATH_DASHBOARD.menu.root,
+              name: `Supplier`,
+              href: PATH_DASHBOARD.supplier.root,
             },
             { name: `${translate('list')}` },
           ]}
@@ -93,19 +94,19 @@ function MenuListPage() {
       }
       actions={() => [
         <Button
-          key="create-menu"
+          key="create-supplier"
           component={RouterLink}
           variant="contained"
-          to={PATH_DASHBOARD.menu.new}
+          to={PATH_DASHBOARD.supplier.new}
           startIcon={<Iconify icon={'eva:plus-fill'} />}
         >
-          {`Tạo menu`}
+          {`Tạo nhà cung cấp`}
         </Button>,
         <DeleteConfirmDialog
           key={''}
           open={Boolean(currentItem)}
           onClose={() => setCurrentItem(null)}
-          onDelete={deleteMenuHandler}
+          onDelete={deleteCategoryHandler}
           title={
             <>
               {translate('common.confirmDeleteTitle')} <strong>{currentItem?.name}</strong>
@@ -121,11 +122,14 @@ function MenuListPage() {
           defaultFilters={{
             active: true,
           }}
-          onEdit={(menu: any) => {
-            navigate(`${PATH_DASHBOARD.menu.root}/${menu.id}/edit`);
+          onEdit={(supplier: any) => {
+            navigate(`${PATH_DASHBOARD.supplier.root}/${supplier?.id}/edit`);
           }}
-          // onView={(menu: any) => navigate(`${PATH_DASHBOARD.menu.root}/${menu.id}`)}
-          getData={menuApi.getMenus}
+          onView={(supplier: any) => {
+            console.log(currentItem);
+            navigate(`${PATH_DASHBOARD.supplier.root}/${supplier?.id}`);
+          }}
+          getData={supplierApi.getSuppliers}
           onDelete={setCurrentItem}
           columns={columns}
         />
@@ -134,4 +138,4 @@ function MenuListPage() {
   );
 }
 
-export default MenuListPage;
+export default SupplierListPage;

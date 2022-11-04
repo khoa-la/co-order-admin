@@ -122,6 +122,20 @@ const navConfig = [
         path: PATH_DASHBOARD.menu.root,
         icon: ICONS.invoice,
       },
+
+      // PRODUCT
+      {
+        title: 'product',
+        path: PATH_DASHBOARD.product.root,
+        icon: ICONS.invoice,
+      },
+
+      // SUPPLIER
+      {
+        title: 'supplier',
+        path: PATH_DASHBOARD.supplier.root,
+        icon: ICONS.invoice,
+      },
     ],
   },
 

@@ -14,7 +14,7 @@ export interface BaseApiWithPaging<T, Q extends TRequestPaging = TRequestPaging>
   create: (data: Partial<T>) => Promise<AxiosResponse<any>>;
   getById: (id: any, params?: any) => Promise<AxiosResponse<T>>;
   delete: (id: any) => Promise<AxiosResponse<any>>;
-  update: (id: any, data: T) => Promise<AxiosResponse<any>>;
+  update: (data: T) => Promise<AxiosResponse<any>>;
 }
 
 export function generateAPI<T>(resource: string): BaseApi<T> {
@@ -29,7 +29,7 @@ export function generateAPI<T>(resource: string): BaseApi<T> {
       }),
     delete: (id) => request.delete<any>(`/${resource}/${id}`),
     create: (data) => request.post<T>(`/${resource}`, data),
-    update: (id, data) => request.put<T>(`/${resource}/${id}`, data),
+    update: (data) => request.put(`/${resource}`, data),
   };
 }
 
@@ -47,7 +47,7 @@ export function generateAPIWithPaging<T, Q extends TRequestPaging = TRequestPagi
       }),
     delete: (id) => request.delete<any>(`/${resource}/${id}`),
     create: (data) => request.post<BaseReponse<T>>(`/${resource}`, data),
-    update: (id, data) => request.put<T>(`/${resource}/${id}`, data),
+    update: (data) => request.put(`/${resource}`, data),
   };
 }
 

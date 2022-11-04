@@ -85,7 +85,7 @@ function AreaNewEditForm() {
               });
             })
         : await areaApi
-            .update(area.id, area)
+            .update(area)
             .then(() =>
               enqueueSnackbar(`Cập nhât thành công`, {
                 variant: 'success',

@@ -17,6 +17,7 @@ export default function RHFTextField({ name, ...other }: Props) {
   return (
     <Controller
       name={name}
+      defaultValue={''}
       control={control}
       render={({ field, fieldState: { error } }) => (
         <TextField {...field} fullWidth error={!!error} helperText={error?.message} {...other} />

@@ -58,14 +58,14 @@ const StickyLeftTableCell = withStyles((theme) => ({
   head: {
     left: 0,
     position: 'sticky',
-    zIndex: theme.zIndex.appBar + 2,
+    zIndex: 1 + 2,
   },
   body: {
     minWidth: '50px',
     left: '0',
     position: 'sticky',
     zIndex: 1,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: 'white',
   },
 }))(TableCell);
 
@@ -258,7 +258,7 @@ const ResoTable = (
 
   const handleView = useCallback(
     (data) => {
-      if (typeof onEdit === 'function') {
+      if (typeof onView === 'function') {
         onView(data);
       }
       closeEditMenu();

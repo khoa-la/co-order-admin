@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Button, Dialog, Stack } from '@mui/material';
-import menuApi from 'apis/menu';
+import { Avatar, Button, Dialog, Stack } from '@mui/material';
+import productApi from 'apis/product';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Iconify from 'components/Iconify';
 import Page from 'components/Page';
@@ -11,24 +11,23 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { PATH_DASHBOARD } from 'routes/paths';
-import request from 'utils/axios';
 import DeleteConfirmDialog from 'components/DeleteConfirmDialog';
-import { TMenu } from 'types/menu';
+import { TProduct } from 'types/product';
 import { useSnackbar } from 'notistack';
 import { get } from 'lodash';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { productComlumns } from './config';
 
-function MenuListPage() {
+function ProductListPage() {
   const { translate } = useLocales();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const ref = useRef<{ reload: Function; formControl: UseFormReturn<any> }>();
-  const [currentItem, setCurrentItem] = useState<TMenu | null>(null);
-  const [formModal, setFormModal] = useState(false);
+  const [currentItem, setCurrentItem] = useState<TProduct | null>(null);
 
-  const deleteMenuHandler = () =>
-    menuApi
+  const deleteAreaHandler = () =>
+    productApi
       .delete(currentItem?.id!)
       .then(() => setCurrentItem(null))
       .then(() => ref.current?.reload)
@@ -44,39 +43,9 @@ function MenuListPage() {
         });
       });
 
-  const columns = [
-    {
-      title: 'STT',
-      dataIndex: 'index',
-      hideInSearch: true,
-    },
-    {
-      title: 'Tên khu vực',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Ngày hoạt động',
-      dataIndex: 'dayFilter',
-    },
-    {
-      title: 'Giờ hoạt động',
-      dataIndex: 'hourFilter',
-    },
-    {
-      title: 'Dạng menu',
-      dataIndex: 'type',
-    },
-    {
-      title: 'Ngày tạo',
-      dataIndex: 'createdDate',
-      valueType: 'datetime',
-      hideInSearch: true,
-    },
-  ];
-
   return (
     <Page
-      title={`Menu`}
+      title={`Product`}
       isTable
       content={
         <HeaderBreadcrumbs
@@ -84,8 +53,8 @@ function MenuListPage() {
           links={[
             { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Menus`,
-              href: PATH_DASHBOARD.menu.root,
+              name: `Areas`,
+              href: PATH_DASHBOARD.area.root,
             },
             { name: `${translate('list')}` },
           ]}
@@ -93,19 +62,19 @@ function MenuListPage() {
       }
       actions={() => [
         <Button
-          key="create-menu"
+          key="create-product"
           component={RouterLink}
           variant="contained"
-          to={PATH_DASHBOARD.menu.new}
+          to={PATH_DASHBOARD.product.new}
           startIcon={<Iconify icon={'eva:plus-fill'} />}
         >
-          {`Tạo menu`}
+          {`Tạo sản phẩm`}
         </Button>,
         <DeleteConfirmDialog
           key={''}
           open={Boolean(currentItem)}
           onClose={() => setCurrentItem(null)}
-          onDelete={deleteMenuHandler}
+          onDelete={deleteAreaHandler}
           title={
             <>
               {translate('common.confirmDeleteTitle')} <strong>{currentItem?.name}</strong>
@@ -121,17 +90,17 @@ function MenuListPage() {
           defaultFilters={{
             active: true,
           }}
-          onEdit={(menu: any) => {
-            navigate(`${PATH_DASHBOARD.menu.root}/${menu.id}/edit`);
+          onEdit={(product: any) => {
+            navigate(`${PATH_DASHBOARD.product.root}/${product.id}/edit`);
           }}
-          // onView={(menu: any) => navigate(`${PATH_DASHBOARD.menu.root}/${menu.id}`)}
-          getData={menuApi.getMenus}
+          onView={(product: any) => navigate(`${PATH_DASHBOARD.product.root}/${product.id}`)}
+          getData={productApi.getProducts}
           onDelete={setCurrentItem}
-          columns={columns}
+          columns={productComlumns}
         />
       </Stack>
     </Page>
   );
 }
 
-export default MenuListPage;
+export default ProductListPage;

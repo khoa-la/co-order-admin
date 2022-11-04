@@ -3,15 +3,15 @@ import { capitalCase } from 'change-case';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
 import useSettings from 'hooks/useSettings';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { TCategory } from 'types/category';
+import { TSupplier } from 'types/supplier';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, RHFTextField, RHFUploadAvatar } from 'components/hook-form';
-import categoryApi from 'apis/category';
+import { FormProvider, RHFSelect, RHFTextField, RHFUploadAvatar } from 'components/hook-form';
+import supplierApi from 'apis/supplier';
 import { useSnackbar } from 'notistack';
 import { get } from 'lodash';
 import { LoadingButton } from '@mui/lab';
@@ -20,14 +20,50 @@ import { useQuery } from 'react-query';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from 'config';
 import { fData } from 'utils/formatNumber';
+import areaApi from 'apis/area';
+import { AutoCompleteField } from 'components/table/reso-table/components/form';
+import { TArea } from 'types/area';
 
-function CategoryNewEditForm() {
+function SupplierNewEditForm() {
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = pathname.includes('edit');
   const { enqueueSnackbar } = useSnackbar();
+
+  const { data: areas } = useQuery('areas', async () => areaApi.get(), {
+    select: (res) => res?.data?.data,
+  });
+  console.log(areas);
+  const areaOptions = areas?.map((c: TArea) => ({ label: c?.name, value: c?.id }));
+  const getArea = (option: any) => {
+    if (!option) return option;
+    if (!option?.value) return areaOptions?.find((opt: any) => opt?.value === option);
+    return option;
+  };
+
+  const types = [
+    {
+      id: 1,
+      name: 'NORMAL',
+    },
+    {
+      id: 2,
+      name: 'PARTY',
+    },
+  ];
+  const typeOptions = types?.map((c: any) => ({ label: c?.name, value: c?.id }));
+  const getType = (option: any) => {
+    if (!option) return option;
+    if (!option?.value) return typeOptions?.find((opt: any) => opt?.value === option);
+    return option;
+  };
+
+  const { data: supplier } = useQuery(['supplier', id], () => supplierApi.getById(Number(id)), {
+    select: (res) => res?.data,
+  });
+  console.log(supplier);
 
   const schema = yup.object().shape({
     name: yup.string().required('Name is required'),
@@ -41,9 +77,9 @@ function CategoryNewEditForm() {
     //   ),
   });
 
-  const methods = useForm<TCategory>({
+  const methods = useForm<TSupplier>({
     defaultValues: {
-      name: '',
+      ...supplier,
     },
     resolver: yupResolver(schema),
   });
@@ -58,17 +94,23 @@ function CategoryNewEditForm() {
     formState: { isSubmitting, isDirty },
   } = methods;
 
-  const onSubmit = async (area: TCategory) => {
+  useEffect(() => {
+    if (supplier) {
+      reset(supplier);
+    }
+  }, [supplier, reset]);
+
+  const onSubmit = async (supplier: TSupplier) => {
     try {
       !isEdit
-        ? await categoryApi
-            .create(area)
+        ? await supplierApi
+            .create(supplier)
             .then(() =>
               enqueueSnackbar(`Tạo thành công`, {
                 variant: 'success',
               })
             )
-            .then(() => navigate(PATH_DASHBOARD.category.list))
+            .then(() => navigate(PATH_DASHBOARD.supplier.list))
             .catch((err: any) => {
               const errMsg = get(
                 err.response,
@@ -79,14 +121,14 @@ function CategoryNewEditForm() {
                 variant: 'error',
               });
             })
-        : await categoryApi
-            .update(area)
+        : await supplierApi
+            .update(supplier)
             .then(() =>
               enqueueSnackbar(`Cập nhât thành công`, {
                 variant: 'success',
               })
             )
-            .then(() => navigate(PATH_DASHBOARD.category.list))
+            .then(() => navigate(PATH_DASHBOARD.supplier.list))
             .catch((err: any) => {
               const errMsg = get(
                 err.response,
@@ -133,25 +175,18 @@ function CategoryNewEditForm() {
           isTable
           content={
             <HeaderBreadcrumbs
-              heading={!isEdit ? 'Create a new arew' : 'Edit area'}
+              heading={!isEdit ? 'Create a new supplier' : 'Edit supplier'}
               links={[
                 { name: 'Dashboard', href: PATH_DASHBOARD.root },
-                { name: 'Areas', href: PATH_DASHBOARD.area.list },
-                { name: !isEdit ? 'New area' : capitalCase('') },
+                { name: 'Supplers', href: PATH_DASHBOARD.supplier.list },
+                { name: !isEdit ? 'New supplier' : capitalCase('') },
               ]}
             />
           }
         >
-          <Grid item xs={12}>
-            <Card sx={{ p: 3 }}>
-              <Box
-                sx={{
-                  display: 'grid',
-                  columnGap: 2,
-                  rowGap: 3,
-                  gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
-                }}
-              >
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Card sx={{ py: 10, px: 3 }}>
                 <RHFUploadAvatar
                   name="imageUrl"
                   accept="image/*"
@@ -173,15 +208,56 @@ function CategoryNewEditForm() {
                     </Typography>
                   }
                 />
-                <RHFTextField name="name" label="Tên danh mục" />
-              </Box>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Card sx={{ p: 3 }}>
+                <Box
+                  sx={{
+                    display: 'grid',
+                    columnGap: 2,
+                    rowGap: 3,
+                    gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
+                  }}
+                >
+                  <RHFTextField name="name" label="Tên nhà cung cấp" />
+                  <RHFTextField name="contact" label="Thông tin liên hệ" />
+                  <RHFTextField name="address" label="Địa chỉ" />
+                  {areas ? (
+                    <AutoCompleteField
+                      options={areaOptions}
+                      getOptionLabel={(value: any) => getArea(value)?.label || ''}
+                      isOptionEqualToValue={(option: any, value: any) => {
+                        if (!option) return option;
+                        return option?.value === getArea(value)?.value;
+                      }}
+                      transformValue={(opt: any) => opt?.value}
+                      name="areaId"
+                      size="large"
+                      type="text"
+                      label="Khu vực"
+                      fullWidth
+                    />
+                  ) : (
+                    ''
+                  )}
+                  <RHFSelect name="type" label="Loại" placeholder="Loại">
+                    <option value="" />
+                    {types.map((option) => (
+                      <option key={option.id} value={option.name}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </RHFSelect>
+                </Box>
 
-              <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-                <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                  {'Save Changes'}
-                </LoadingButton>
-              </Stack>
-            </Card>
+                <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+              </Card>
+            </Grid>
           </Grid>
         </Page>
       </FormProvider>
@@ -189,4 +265,4 @@ function CategoryNewEditForm() {
   );
 }
 
-export default CategoryNewEditForm;
+export default SupplierNewEditForm;

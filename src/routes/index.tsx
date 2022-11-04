@@ -177,9 +177,29 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/menu/list" replace />, index: true },
             { path: 'list', element: <MenuList /> },
-            { path: ':id', element: <CategoryCreateUpdate /> },
-            { path: ':id/edit', element: <CategoryCreateUpdate /> },
-            { path: 'new', element: <CategoryCreateUpdate /> },
+            { path: ':id', element: <MenuCreateUpdate /> },
+            { path: ':id/edit', element: <MenuCreateUpdate /> },
+            { path: 'new', element: <MenuCreateUpdate /> },
+          ],
+        },
+        {
+          path: 'product',
+          children: [
+            { element: <Navigate to="/dashboard/product/list" replace />, index: true },
+            { path: 'list', element: <ProductList /> },
+            { path: ':id', element: <ProductCreateUpdate /> },
+            { path: ':id/edit', element: <ProductCreateUpdate /> },
+            { path: 'new', element: <ProductCreateUpdate /> },
+          ],
+        },
+        {
+          path: 'supplier',
+          children: [
+            { element: <Navigate to="/dashboard/supplier/list" replace />, index: true },
+            { path: 'list', element: <SupplierList /> },
+            { path: ':id', element: <SupplierCreateUpdate /> },
+            { path: ':id/edit', element: <SupplierCreateUpdate /> },
+            { path: 'new', element: <SupplierCreateUpdate /> },
           ],
         },
       ],
@@ -287,6 +307,11 @@ const AreaList = Loadable(lazy(() => import('../pages/areas')));
 const AreaCreateUpdate = Loadable(lazy(() => import('../pages/areas/AreaNewEditForm')));
 const CategoryList = Loadable(lazy(() => import('../pages/categories')));
 const CategoryCreateUpdate = Loadable(
-  lazy(() => import('../pages//categories/CategoryNewEditForm'))
+  lazy(() => import('../pages/categories/CategoryNewEditForm'))
 );
 const MenuList = Loadable(lazy(() => import('../pages/menus')));
+const MenuCreateUpdate = Loadable(lazy(() => import('../pages/menus/MenuNewEditForm')));
+const ProductList = Loadable(lazy(() => import('../pages/products')));
+const ProductCreateUpdate = Loadable(lazy(() => import('../pages/products/ProductNewEditForm')));
+const SupplierList = Loadable(lazy(() => import('../pages/suppliers')));
+const SupplierCreateUpdate = Loadable(lazy(() => import('../pages/suppliers/SupplierNewEditForm')));

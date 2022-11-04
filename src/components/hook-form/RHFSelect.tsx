@@ -18,6 +18,7 @@ export default function RHFSelect({ name, children, ...other }: Props) {
   return (
     <Controller
       name={name}
+      defaultValue={''}
       control={control}
       render={({ field, fieldState: { error } }) => (
         <TextField
