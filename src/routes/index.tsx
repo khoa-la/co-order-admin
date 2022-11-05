@@ -222,13 +222,12 @@ export default function Router() {
     },
     {
       path: '/',
-      element: <MainLayout />,
-      children: [
-        { element: <HomePage />, index: true },
-        { path: 'about-us', element: <About /> },
-        { path: 'contact-us', element: <Contact /> },
-        { path: 'faqs', element: <Faqs /> },
-      ],
+      element: (
+        <AuthGuard>
+          <DashboardLayout />
+        </AuthGuard>
+      ),
+      children: [{ element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true }],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);

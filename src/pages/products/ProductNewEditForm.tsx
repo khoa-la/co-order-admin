@@ -11,7 +11,7 @@ import { PATH_DASHBOARD } from 'routes/paths';
 import { TSupplier } from 'types/supplier';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, RHFSelect, RHFTextField, RHFUploadAvatar } from 'components/hook-form';
-import supplierApi from 'apis/supplier';
+import productApi from 'apis/product';
 import { useSnackbar } from 'notistack';
 import { get } from 'lodash';
 import { LoadingButton } from '@mui/lab';
@@ -20,12 +20,12 @@ import { useQuery } from 'react-query';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from 'config';
 import { fData } from 'utils/formatNumber';
-import productApi from 'apis/product';
 import { AutoCompleteField } from 'components/table/reso-table/components/form';
 import { TProduct } from 'types/product';
 import categoryApi from 'apis/category';
 import { TCategory } from 'types/category';
 import { ListProductTypeEnums } from 'utils/enums';
+import supplierApi from 'apis/supplier';
 
 function ProductNewEditForm() {
   const { themeStretch } = useSettings();
@@ -104,7 +104,7 @@ function ProductNewEditForm() {
   const onSubmit = async (supplier: TProduct) => {
     try {
       !isEdit
-        ? await supplierApi
+        ? await productApi
             .create(supplier)
             .then(() =>
               enqueueSnackbar(`Tạo thành công`, {
@@ -122,8 +122,8 @@ function ProductNewEditForm() {
                 variant: 'error',
               });
             })
-        : await supplierApi
-            .updateSupplier(supplier)
+        : await productApi
+            .update(supplier)
             .then(() =>
               enqueueSnackbar(`Cập nhât thành công`, {
                 variant: 'success',
@@ -176,7 +176,7 @@ function ProductNewEditForm() {
           isTable
           content={
             <HeaderBreadcrumbs
-              heading={!isEdit ? 'Create a new product' : 'Edit product'}
+              heading={!isEdit ? 'Tạo sản phẩm' : 'Chỉnh sửa sản phẩm'}
               links={[
                 { name: 'Dashboard', href: PATH_DASHBOARD.root },
                 { name: 'Products', href: PATH_DASHBOARD.product.list },

@@ -63,7 +63,6 @@ function SupplierNewEditForm() {
   const { data: supplier } = useQuery(['supplier', id], () => supplierApi.getById(Number(id)), {
     select: (res) => res?.data,
   });
-  console.log(supplier);
 
   const schema = yup.object().shape({
     name: yup.string().required('Name is required'),
@@ -175,7 +174,7 @@ function SupplierNewEditForm() {
           isTable
           content={
             <HeaderBreadcrumbs
-              heading={!isEdit ? 'Create a new supplier' : 'Edit supplier'}
+              heading={!isEdit ? 'Tạo nhà cung cấp' : 'Chỉnh sửa nhà cung cấp'}
               links={[
                 { name: 'Dashboard', href: PATH_DASHBOARD.root },
                 { name: 'Supplers', href: PATH_DASHBOARD.supplier.list },

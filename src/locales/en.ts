@@ -56,6 +56,21 @@ const en = {
   menu: `Thực đơn`,
   product: `Sản phẩm`,
   supplier: `Nhà cung cấp`,
+  common: {
+    save: 'Lưu',
+    cancel: 'Huỷ',
+    confirmDeleteTitle: 'Xác nhận xoá',
+    confirm: 'Xác nhận',
+    all: 'All',
+    available: 'Available',
+    unAvailable: 'Unavailable',
+    table: {
+      isAvailable: 'Status',
+    },
+  },
+  resoTable: {
+    clearFilters: 'Xoá bộ lọc',
+  },
 };
 
 export default en;

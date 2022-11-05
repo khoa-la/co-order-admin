@@ -155,7 +155,7 @@ function MenuNewEditForm() {
         isTable
         content={
           <HeaderBreadcrumbs
-            heading={!isEdit ? 'Create a new menu' : 'Edit menu'}
+            heading={!isEdit ? 'Tạo thực đơn' : 'Chỉnh sửa thực đơn'}
             links={[
               { name: 'Dashboard', href: PATH_DASHBOARD.root },
               { name: 'Menus', href: PATH_DASHBOARD.product.list },

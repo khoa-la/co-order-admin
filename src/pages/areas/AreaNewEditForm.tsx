@@ -3,7 +3,7 @@ import { capitalCase } from 'change-case';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
 import useSettings from 'hooks/useSettings';
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -32,6 +32,9 @@ function AreaNewEditForm() {
   //   select: (res) => res,
   // });
   // console.log(user);
+  const { data: area } = useQuery(['area', id], () => areaApi.getById(Number(id)), {
+    select: (res) => res?.data,
+  });
 
   const schema = yup.object().shape({
     name: yup.string().required('Name is required'),
@@ -47,8 +50,7 @@ function AreaNewEditForm() {
 
   const methods = useForm<TArea>({
     defaultValues: {
-      name: '',
-      shippingFee: 0,
+      ...area,
     },
     resolver: yupResolver(schema),
   });
@@ -62,6 +64,12 @@ function AreaNewEditForm() {
     handleSubmit,
     formState: { isSubmitting, isDirty },
   } = methods;
+
+  useEffect(() => {
+    if (area) {
+      reset(area);
+    }
+  }, [area, reset]);
 
   const onSubmit = async (area: TArea) => {
     try {
@@ -115,7 +123,7 @@ function AreaNewEditForm() {
           isTable
           content={
             <HeaderBreadcrumbs
-              heading={!isEdit ? 'Create a new arew' : 'Edit area'}
+              heading={!isEdit ? 'Tạo khu vực' : 'Chỉnh sửa khu vực'}
               links={[
                 { name: 'Dashboard', href: PATH_DASHBOARD.root },
                 { name: 'Areas', href: PATH_DASHBOARD.area.list },

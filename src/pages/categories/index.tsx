@@ -21,6 +21,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 function CategoryListPage() {
   const { translate } = useLocales();
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const ref = useRef<{ reload: Function; formControl: UseFormReturn<any> }>();
   const [currentItem, setCurrentItem] = useState<TCategory | null>(null);
@@ -122,10 +123,9 @@ function CategoryListPage() {
           defaultFilters={{
             active: true,
           }}
-          // onEdit={(course: any) => {
-          //   navigate(`${PATH_DASHBOARD.courses.root}/${course.id}`);
-          //   setIsUpdate(true);
-          // }}
+          onEdit={(category: any) => {
+            navigate(`${PATH_DASHBOARD.category.root}/${category.id}/edit`);
+          }}
           // onView={(course: any) => navigate(`${PATH_DASHBOARD.courses.root}/${course.id}/view`)}
           getData={categoryApi.getCategories}
           onDelete={setCurrentItem}

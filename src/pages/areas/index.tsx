@@ -24,7 +24,7 @@ function AreaListPage() {
   //   select: (res) => res,
   // });
   // console.log(user);
-
+  const navigate = useNavigate();
   const { translate } = useLocales();
   const { enqueueSnackbar } = useSnackbar();
   const ref = useRef<{ reload: Function; formControl: UseFormReturn<any> }>();
@@ -137,10 +137,9 @@ function AreaListPage() {
           defaultFilters={{
             active: true,
           }}
-          // onEdit={(course: any) => {
-          //   navigate(`${PATH_DASHBOARD.courses.root}/${course.id}`);
-          //   setIsUpdate(true);
-          // }}
+          onEdit={(area: any) => {
+            navigate(`${PATH_DASHBOARD.area.root}/${area.id}/edit`);
+          }}
           // onView={(course: any) => navigate(`${PATH_DASHBOARD.courses.root}/${course.id}/view`)}
           getData={areaApi.getAreas}
           onDelete={setCurrentItem}

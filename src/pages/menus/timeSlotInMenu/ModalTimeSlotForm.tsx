@@ -84,18 +84,52 @@ export default function ModalTimeSlotForm({ trigger, onSubmit }: any) {
       {cloneElement(trigger, { onClick: handleClick })}
       <Dialog maxWidth="md" open={open} onClose={() => setOpen(false)}>
         <Stack spacing={3} sx={{ p: 3 }}>
-          <RHFTextField name="title" label="Title" />
+          {/* <RHFTextField name="title" label="Title" /> */}
+          <Controller
+            name="startTime"
+            control={control}
+            render={({ field }) => (
+              <MobileDateTimePicker
+                {...field}
+                label="Giờ bắt đầu"
+                inputFormat="dd/MM/yyyy hh:mm a"
+                renderInput={(params) => <TextField {...params} fullWidth />}
+              />
+            )}
+          />
+
+          <Controller
+            name="endTime"
+            control={control}
+            render={({ field }) => (
+              <MobileDateTimePicker
+                {...field}
+                label="Giờ kết thúc"
+                inputFormat="dd/MM/yyyy hh:mm a"
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    error={!!isDateError}
+                    helperText={isDateError && 'End date must be later than start date'}
+                  />
+                )}
+              />
+            )}
+          />
         </Stack>
 
-        <Box sx={{ flexGrow: 1 }} />
+        <DialogActions>
+          <Box sx={{ flexGrow: 1 }} />
 
-        <Button variant="outlined" color="inherit" onClick={() => setOpen(false)}>
-          Cancel
-        </Button>
+          <Button variant="outlined" color="inherit" onClick={() => setOpen(false)}>
+            Huỷ
+          </Button>
 
-        <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Add
-        </LoadingButton>
+          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+            Thêm
+          </LoadingButton>
+        </DialogActions>
       </Dialog>
     </FormProvider>
   );

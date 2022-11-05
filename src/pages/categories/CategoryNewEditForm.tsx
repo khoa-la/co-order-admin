@@ -3,7 +3,7 @@ import { capitalCase } from 'change-case';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
 import useSettings from 'hooks/useSettings';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -29,6 +29,10 @@ function CategoryNewEditForm() {
   const isEdit = pathname.includes('edit');
   const { enqueueSnackbar } = useSnackbar();
 
+  const { data: category } = useQuery(['category', id], () => categoryApi.getById(Number(id)), {
+    select: (res) => res?.data,
+  });
+
   const schema = yup.object().shape({
     name: yup.string().required('Name is required'),
     // subjects: yup
@@ -43,7 +47,7 @@ function CategoryNewEditForm() {
 
   const methods = useForm<TCategory>({
     defaultValues: {
-      name: '',
+      ...category,
     },
     resolver: yupResolver(schema),
   });
@@ -57,6 +61,12 @@ function CategoryNewEditForm() {
     handleSubmit,
     formState: { isSubmitting, isDirty },
   } = methods;
+
+  useEffect(() => {
+    if (category) {
+      reset(category);
+    }
+  }, [category, reset]);
 
   const onSubmit = async (area: TCategory) => {
     try {
@@ -133,7 +143,7 @@ function CategoryNewEditForm() {
           isTable
           content={
             <HeaderBreadcrumbs
-              heading={!isEdit ? 'Create a new arew' : 'Edit area'}
+              heading={!isEdit ? 'Tạo danh mục' : 'Chỉnh sửa danh mục'}
               links={[
                 { name: 'Dashboard', href: PATH_DASHBOARD.root },
                 { name: 'Areas', href: PATH_DASHBOARD.area.list },
