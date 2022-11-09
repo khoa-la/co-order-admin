@@ -7,6 +7,8 @@ import { ActionMap, AuthState, AuthUser, JWTContextType } from '../@types/auth';
 
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import request from '../utils/axios';
+import jwtDecode from 'jwt-decode';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -88,6 +90,18 @@ function AuthProvider({ children }: AuthProviderProps) {
       try {
         const accessToken = localStorage.getItem('accessToken');
 
+        const decoded = jwtDecode<{ role: string }>(accessToken!);
+        console.log(decoded.role);
+        if (decoded.role !== 'ADMIN') {
+          dispatch({
+            type: Types.Initial,
+            payload: {
+              isAuthenticated: false,
+              user: null,
+            },
+          });
+        }
+
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
@@ -138,6 +152,17 @@ function AuthProvider({ children }: AuthProviderProps) {
         idToken: resultUser.accessToken,
       });
       const { accessToken } = response?.data?.data;
+      const decoded = jwtDecode<{ role: string }>(accessToken!);
+      console.log(decoded.role);
+      if (decoded.role.toString() !== 'ADMIN') {
+        dispatch({
+          type: Types.Initial,
+          payload: {
+            isAuthenticated: false,
+            user: null,
+          },
+        });
+      }
       setSession(accessToken);
       const res = await axios.get('/users/me');
       const user = res.data;

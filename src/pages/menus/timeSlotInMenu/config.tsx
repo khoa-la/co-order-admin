@@ -9,13 +9,13 @@ export const timeSlotInMenuColumns = [
   {
     title: 'Giờ bắt đầu',
     dataIndex: 'startTime',
-    valueType: 'datetime',
+    valueType: 'time',
     hideInSearch: true,
   },
   {
     title: 'Giờ kết thúc',
     dataIndex: 'endTime',
-    valueType: 'datetime',
+    valueType: 'time',
     hideInSearch: true,
   },
   {

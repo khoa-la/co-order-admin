@@ -158,7 +158,7 @@ function MenuNewEditForm() {
             heading={!isEdit ? 'Tạo thực đơn' : 'Chỉnh sửa thực đơn'}
             links={[
               { name: 'Dashboard', href: PATH_DASHBOARD.root },
-              { name: 'Menus', href: PATH_DASHBOARD.product.list },
+              { name: 'Menus', href: PATH_DASHBOARD.menu.list },
               { name: !isEdit ? 'New menu' : capitalCase('') },
             ]}
           />

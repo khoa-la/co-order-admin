@@ -4,7 +4,7 @@ enum ProductTypeEnums {
   GIFT = 'GIFT',
 }
 
-enum OrderStatusEnums {
+export enum OrderStatusEnums {
   WAITING = 'WAITING',
   PENDING = 'PENDING',
   FINISHED = 'FINISHED',

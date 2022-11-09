@@ -202,6 +202,14 @@ export default function Router() {
             { path: 'new', element: <SupplierCreateUpdate /> },
           ],
         },
+        {
+          path: 'order',
+          children: [
+            { element: <Navigate to="/dashboard/order/list" replace />, index: true },
+            { path: 'list', element: <OrderList /> },
+            { path: ':id', element: <SupplierCreateUpdate /> },
+          ],
+        },
       ],
     },
 
@@ -314,3 +322,4 @@ const ProductList = Loadable(lazy(() => import('../pages/products')));
 const ProductCreateUpdate = Loadable(lazy(() => import('../pages/products/ProductNewEditForm')));
 const SupplierList = Loadable(lazy(() => import('../pages/suppliers')));
 const SupplierCreateUpdate = Loadable(lazy(() => import('../pages/suppliers/SupplierNewEditForm')));
+const OrderList = Loadable(lazy(() => import('../pages/orders')));

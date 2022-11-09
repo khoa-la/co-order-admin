@@ -102,6 +102,13 @@ const navConfig = [
       //   ],
       // },
 
+      // ORDER
+      {
+        title: 'order',
+        path: PATH_DASHBOARD.order.root,
+        icon: ICONS.invoice,
+      },
+
       // AREA
       {
         title: 'area',

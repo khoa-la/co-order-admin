@@ -92,7 +92,7 @@ export default function ModalTimeSlotForm({ trigger, onSubmit }: any) {
               <MobileDateTimePicker
                 {...field}
                 label="Giờ bắt đầu"
-                inputFormat="dd/MM/yyyy hh:mm a"
+                inputFormat="hh:mm a"
                 renderInput={(params) => <TextField {...params} fullWidth />}
               />
             )}
@@ -105,7 +105,7 @@ export default function ModalTimeSlotForm({ trigger, onSubmit }: any) {
               <MobileDateTimePicker
                 {...field}
                 label="Giờ kết thúc"
-                inputFormat="dd/MM/yyyy hh:mm a"
+                inputFormat="hh:mm a"
                 renderInput={(params) => (
                   <TextField
                     {...params}

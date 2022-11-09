@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import { useSnackbar } from 'notistack';
 // routes
 import { PATH_AUTH } from '../routes/paths';
 //
@@ -7,10 +8,19 @@ import axios from './axios';
 // ----------------------------------------------------------------------
 
 const isValidToken = (accessToken: string) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { enqueueSnackbar } = useSnackbar();
   if (!accessToken) {
     return false;
   }
-  const decoded = jwtDecode<{ exp: number }>(accessToken);
+  const decoded = jwtDecode<{ exp: number; role: string }>(accessToken);
+  if (decoded.role !== 'ADMIN') {
+    enqueueSnackbar('Bạn không có quyền truy cập hệ thống', {
+      variant: 'error',
+    });
+    localStorage.removeItem('accessToken');
+    return false;
+  }
 
   const currentTime = Date.now() / 1000;
 

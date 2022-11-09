@@ -5,16 +5,16 @@ import { AxiosResponse } from 'axios';
 import { BaseReponse } from 'types/response';
 
 const getProductsInMenu = (menuId: number, params?: any) =>
-  request.get(`/admin/menus/${menuId}/products`, { params });
+  request.get(`/admin/menus/${menuId}/product-in-menus`, { params });
 
 const create = (menuId: number, data: TProductInMenu) =>
-  request.post<TProductInMenu>(`/admin/menus/${menuId}/products`, { data });
+  request.post<TProductInMenu>(`/admin/menus/${menuId}/product-in-menus`, { data });
 
 const update = (menuId: number, data: TProductInMenu) =>
-  request.put(`/admin/menus/${menuId}/products`, { data });
+  request.put(`/admin/menus/${menuId}/product-in-menus`, { data });
 
 const remove = (menuId: number, productId: number) =>
-  request.delete(`/admin/menus/${menuId}/products/${productId}`);
+  request.delete(`/admin/menus/${menuId}/product-in-menus/${productId}`);
 
 const productInMenuApi = {
   getProductsInMenu,
