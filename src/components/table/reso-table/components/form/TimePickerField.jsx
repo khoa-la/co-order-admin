@@ -3,7 +3,7 @@ import { TimePicker } from '@mui/lab';
 import { TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 
-const TimePickerField = ({ name, label, defaultValue = '', transform, ...props }) => {
+const TimePickerField = ({ name, label, defaultValue = '', transform = null, ...props }) => {
   const { control } = useFormContext();
   return (
     <Controller

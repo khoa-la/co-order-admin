@@ -1,36 +1,20 @@
-import * as Yup from 'yup';
-import merge from 'lodash/merge';
 import { isBefore } from 'date-fns';
 import { useSnackbar } from 'notistack';
-import { EventInput } from '@fullcalendar/common';
+import * as Yup from 'yup';
 // form
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form';
 // @mui
-import {
-  Box,
-  Stack,
-  Button,
-  Tooltip,
-  TextField,
-  IconButton,
-  DialogActions,
-  Dialog,
-} from '@mui/material';
 import { LoadingButton, MobileDateTimePicker } from '@mui/lab';
+import { Box, Button, Dialog, DialogActions, Stack, TextField } from '@mui/material';
 // redux
-import { useDispatch } from '../../../redux/store';
-import { createEvent, updateEvent, deleteEvent } from '../../../redux/slices/calendar';
 // components
-import Iconify from '../../../components/Iconify';
-import { ColorSinglePicker } from '../../../components/color-utils';
-import { FormProvider, RHFTextField, RHFSwitch } from '../../../components/hook-form';
+import { get } from 'lodash';
+import { cloneElement, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { TTimeSlotInMenu } from 'types/timeSlot';
 import request from 'utils/axios';
-import { useParams } from 'react-router-dom';
-import { cloneElement, useState } from 'react';
-import { get } from 'lodash';
-import { DialogAnimate } from 'components/animate';
+import { FormProvider } from '../../../components/hook-form';
+import { TimePickerField } from 'components/table/reso-table/components/form';
 
 // ----------------------------------------------------------------------
 
@@ -59,6 +43,7 @@ export default function ModalTimeSlotForm({ trigger, onSubmit }: any) {
   } = methods;
 
   const addTimeSLotToMenu = async (timneSlotInMenu: TTimeSlotInMenu) => {
+    console.log(timneSlotInMenu);
     try {
       await request
         .post(`/admin/menus/${Number(menuId)}/time-slots`, timneSlotInMenu)
@@ -80,43 +65,12 @@ export default function ModalTimeSlotForm({ trigger, onSubmit }: any) {
   const isDateError = isBefore(new Date(values.endTime), new Date(values.startTime));
 
   return (
-    <FormProvider {...methods} methods={methods} onSubmit={handleSubmit(addTimeSLotToMenu)}>
+    <FormProvider {...methods} methods={methods}>
       {cloneElement(trigger, { onClick: handleClick })}
       <Dialog maxWidth="md" open={open} onClose={() => setOpen(false)}>
         <Stack spacing={3} sx={{ p: 3 }}>
-          {/* <RHFTextField name="title" label="Title" /> */}
-          <Controller
-            name="startTime"
-            control={control}
-            render={({ field }) => (
-              <MobileDateTimePicker
-                {...field}
-                label="Giờ bắt đầu"
-                inputFormat="hh:mm a"
-                renderInput={(params) => <TextField {...params} fullWidth />}
-              />
-            )}
-          />
-
-          <Controller
-            name="endTime"
-            control={control}
-            render={({ field }) => (
-              <MobileDateTimePicker
-                {...field}
-                label="Giờ kết thúc"
-                inputFormat="hh:mm a"
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    error={!!isDateError}
-                    helperText={isDateError && 'End date must be later than start date'}
-                  />
-                )}
-              />
-            )}
-          />
+          <TimePickerField name={'startTime'} label={'Giờ bắt đầu'} />
+          <TimePickerField name={'endTime'} label={'Giờ kết thúc'} />
         </Stack>
 
         <DialogActions>
@@ -126,7 +80,12 @@ export default function ModalTimeSlotForm({ trigger, onSubmit }: any) {
             Huỷ
           </Button>
 
-          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+            onClick={handleSubmit(addTimeSLotToMenu)}
+          >
             Thêm
           </LoadingButton>
         </DialogActions>
