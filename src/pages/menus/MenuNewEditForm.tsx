@@ -1,43 +1,29 @@
-import { Box, Card, Container, Grid, Stack, Tab, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
+import { yupResolver } from '@hookform/resolvers/yup';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import MenuIcon from '@mui/icons-material/Menu';
+import { LoadingButton, TabContext, TabList, TabPanel } from '@mui/lab';
+import { Box, Card, Grid, Stack, Tab } from '@mui/material';
+import areaApi from 'apis/area';
+import menuApi from 'apis/menu';
 import { capitalCase } from 'change-case';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
+import { FormProvider, RHFSelect, RHFTextField } from 'components/hook-form';
+import Label from 'components/Label';
 import Page from 'components/Page';
+import { AutoCompleteField } from 'components/table/reso-table/components/form';
 import useSettings from 'hooks/useSettings';
-import React, { useCallback, useEffect, useState } from 'react';
-import * as yup from 'yup';
+import { get } from 'lodash';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useQuery } from 'react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { TSupplier } from 'types/supplier';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, RHFSelect, RHFTextField, RHFUploadAvatar } from 'components/hook-form';
-import supplierApi from 'apis/supplier';
-import { useSnackbar } from 'notistack';
-import { get } from 'lodash';
-import { LoadingButton, TabContext, TabList, TabPanel } from '@mui/lab';
-import areaHooks from 'hooks/areas/areaHooks';
-import { useQuery } from 'react-query';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { storage } from 'config';
-import { fData } from 'utils/formatNumber';
-import productApi from 'apis/product';
-import { AutoCompleteField } from 'components/table/reso-table/components/form';
-import { TProduct } from 'types/product';
-import categoryApi from 'apis/category';
-import { TCategory } from 'types/category';
-import {
-  ListMenuDateFilterEnums,
-  ListMenuHourFilterEnums,
-  ListProductTypeEnums,
-} from 'utils/enums';
-import areaApi from 'apis/area';
 import { TArea } from 'types/area';
-import menuApi from 'apis/menu';
 import { TMenu } from 'types/menu';
-import Label from 'components/Label';
+import { ListMenuDateFilterEnums, ListMenuHourFilterEnums } from 'utils/enums';
+import * as yup from 'yup';
 import ProductInMenuListPage from './productInMenu';
 import TimeSlotInMenuListPage from './timeSlotInMenu';
 

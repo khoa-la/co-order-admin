@@ -14,7 +14,6 @@ import { useQuery } from 'react-query';
 import { PATH_DASHBOARD } from 'routes/paths';
 import request from 'utils/axios';
 import DeleteConfirmDialog from 'components/DeleteConfirmDialog';
-import { TMenu } from 'types/menu';
 import { useSnackbar } from 'notistack';
 import { get } from 'lodash';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
@@ -32,7 +31,7 @@ function TimeSlotInMenuListPage() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const ref = useRef<{ reload: Function; formControl: UseFormReturn<any> }>();
-  const [currentItem, setCurrentItem] = useState<TMenu | null>(null);
+  const [currentItem, setCurrentItem] = useState<TTimeSlotInMenu | null>(null);
   const [formModal, setFormModal] = useState(false);
 
   const deleteMenuHandler = () =>
@@ -41,7 +40,7 @@ function TimeSlotInMenuListPage() {
       .then(() => setCurrentItem(null))
       .then(() => ref.current?.reload)
       .then(() =>
-        enqueueSnackbar(`Xóa thành công sản phẩm ${currentItem?.name}`, {
+        enqueueSnackbar(`Xóa thành công khung giờ`, {
           variant: 'success',
         })
       )
@@ -87,45 +86,45 @@ function TimeSlotInMenuListPage() {
   } = methods;
 
   return (
-    <FormProvider {...methods} methods={methods} onSubmit={handleSubmit(addTimeSlotToMenu)}>
-      <Page
-        title={``}
-        isTable
-        sx={{ m: 2 }}
-        actions={() => [
-          <DeleteConfirmDialog
-            key={''}
-            open={Boolean(currentItem)}
-            onClose={() => setCurrentItem(null)}
-            onDelete={deleteMenuHandler}
-            title={
-              <>
-                {translate('common.confirmDeleteTitle')} <strong>{currentItem?.name}</strong>
-              </>
-            }
-          />,
-        ]}
-      >
-        <Stack justifyContent="flex-end" mb={2} direction="row" spacing={2}>
-          <ModalTimeSlotForm
-            onSubmit={addTimeSlotToMenu}
-            trigger={<Button variant="outlined">Thêm khung giờ</Button>}
-          />
-        </Stack>
-        <Stack spacing={2}>
-          <ResoTable
-            rowKey="id"
-            ref={ref}
-            defaultFilters={{
+    // <FormProvider {...methods} methods={methods} onSubmit={handleSubmit(addTimeSlotToMenu)}>
+    <Page
+      title={``}
+      isTable
+      sx={{ m: 2 }}
+      actions={() => [
+        <DeleteConfirmDialog
+          key={''}
+          open={Boolean(currentItem)}
+          onClose={() => setCurrentItem(null)}
+          onDelete={deleteMenuHandler}
+          title={<>{translate('common.confirmDeleteTitle')}</>}
+        />,
+      ]}
+    >
+      <Stack justifyContent="flex-end" mb={2} direction="row" spacing={2}>
+        <ModalTimeSlotForm
+          onSubmit={addTimeSlotToMenu}
+          trigger={<Button variant="outlined">Thêm khung giờ</Button>}
+        />
+      </Stack>
+      <Stack spacing={2}>
+        <ResoTable
+          rowKey="id"
+          ref={ref}
+          defaultFilters={{
+            active: 1,
+          }}
+          getData={() =>
+            timeSlotInMenuApi.getTimeSlotsInMenu(Number(menuId), {
               active: true,
-            }}
-            getData={() => timeSlotInMenuApi.getTimeSlotsInMenu(Number(menuId))}
-            onDelete={setCurrentItem}
-            columns={timeSlotInMenuColumns}
-          />
-        </Stack>
-      </Page>
-    </FormProvider>
+            })
+          }
+          onDelete={setCurrentItem}
+          columns={timeSlotInMenuColumns}
+        />
+      </Stack>
+    </Page>
+    // </FormProvider>
   );
 }
 

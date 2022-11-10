@@ -1,23 +1,18 @@
-import { Icon } from '@iconify/react';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import { Button, Dialog, Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import menuApi from 'apis/menu';
+import DeleteConfirmDialog from 'components/DeleteConfirmDialog';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Iconify from 'components/Iconify';
 import Page from 'components/Page';
 import ResoTable from 'components/table/reso-table/ResoTable';
 import useLocales from 'hooks/useLocales';
-import React, { useEffect, useRef, useState } from 'react';
-import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
-import { useQuery } from 'react-query';
-import { PATH_DASHBOARD } from 'routes/paths';
-import request from 'utils/axios';
-import DeleteConfirmDialog from 'components/DeleteConfirmDialog';
-import { TMenu } from 'types/menu';
-import { useSnackbar } from 'notistack';
 import { get } from 'lodash';
+import { useSnackbar } from 'notistack';
+import { useRef, useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { PATH_DASHBOARD } from 'routes/paths';
+import { TMenu } from 'types/menu';
 
 function MenuListPage() {
   const { translate } = useLocales();
