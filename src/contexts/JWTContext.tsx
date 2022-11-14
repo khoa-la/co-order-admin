@@ -90,17 +90,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       try {
         const accessToken = localStorage.getItem('accessToken');
 
-        const decoded = jwtDecode<{ role: string }>(accessToken!);
-        console.log(decoded.role);
-        if (decoded.role !== 'ADMIN') {
-          dispatch({
-            type: Types.Initial,
-            payload: {
-              isAuthenticated: false,
-              user: null,
-            },
-          });
-        }
+        // const decoded = jwtDecode<{ role: string }>(accessToken!);
 
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
@@ -124,6 +114,15 @@ function AuthProvider({ children }: AuthProviderProps) {
             },
           });
         }
+        // if (decoded.role !== 'ADMIN') {
+        //   dispatch({
+        //     type: Types.Initial,
+        //     payload: {
+        //       isAuthenticated: false,
+        //       user: null,
+        //     },
+        //   });
+        // }
       } catch (err) {
         console.error(err);
         dispatch({
