@@ -176,9 +176,9 @@ function SupplierNewEditForm() {
             <HeaderBreadcrumbs
               heading={!isEdit ? 'Tạo nhà cung cấp' : 'Chỉnh sửa nhà cung cấp'}
               links={[
-                { name: 'Dashboard', href: PATH_DASHBOARD.root },
-                { name: 'Supplers', href: PATH_DASHBOARD.supplier.list },
-                { name: !isEdit ? 'New supplier' : capitalCase('') },
+                { name: 'Trang chủ', href: PATH_DASHBOARD.root },
+                { name: 'Nhà cung cấp', href: PATH_DASHBOARD.supplier.list },
+                { name: !isEdit ? 'Nhà cung cấp mới' : `${id}` },
               ]}
             />
           }
@@ -240,14 +240,6 @@ function SupplierNewEditForm() {
                   ) : (
                     ''
                   )}
-                  <RHFSelect name="type" label="Loại" placeholder="Loại">
-                    <option value="" />
-                    {types.map((option) => (
-                      <option key={option.id} value={option.name}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </RHFSelect>
                 </Box>
 
                 <Stack alignItems="flex-end" sx={{ mt: 3 }}>

@@ -143,9 +143,9 @@ function MenuNewEditForm() {
           <HeaderBreadcrumbs
             heading={!isEdit ? 'Tạo thực đơn' : 'Chỉnh sửa thực đơn'}
             links={[
-              { name: 'Dashboard', href: PATH_DASHBOARD.root },
-              { name: 'Menus', href: PATH_DASHBOARD.menu.list },
-              { name: !isEdit ? 'New menu' : capitalCase('') },
+              { name: 'Trang chủ', href: PATH_DASHBOARD.root },
+              { name: 'Thực đơn', href: PATH_DASHBOARD.menu.list },
+              { name: !isEdit ? 'Thực đơn mới' : `${id}` },
             ]}
           />
         }

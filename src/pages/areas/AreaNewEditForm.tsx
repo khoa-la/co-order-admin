@@ -125,9 +125,9 @@ function AreaNewEditForm() {
             <HeaderBreadcrumbs
               heading={!isEdit ? 'Tạo khu vực' : 'Chỉnh sửa khu vực'}
               links={[
-                { name: 'Dashboard', href: PATH_DASHBOARD.root },
-                { name: 'Areas', href: PATH_DASHBOARD.area.list },
-                { name: !isEdit ? 'New area' : capitalCase('') },
+                { name: 'Trang chủ', href: PATH_DASHBOARD.root },
+                { name: 'Khu vực', href: PATH_DASHBOARD.area.list },
+                { name: !isEdit ? 'Khu vực mới' : `${id}` },
               ]}
             />
           }

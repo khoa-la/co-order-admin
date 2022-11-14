@@ -188,12 +188,12 @@ const ResoTable = (
       return getData({
         ...transformParamToHyphen({ ...params.filters, ..._filters }),
         page: params.current,
-        size: params.size,
+        size: params.pageSize,
       });
     },
     {
       defaultPageSize: 25,
-      defaultParams: [{ current: 1, size: 50 }],
+      defaultParams: [{ current: 1, pageSize: 25 }],
       formatResult: (res) => ({
         // total: dataSource ? dataSource.length : res.data.metadata?.total,
         // list: dataSource ?? res.data?.data ?? [],

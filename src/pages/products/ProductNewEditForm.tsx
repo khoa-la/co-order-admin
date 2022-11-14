@@ -178,9 +178,9 @@ function ProductNewEditForm() {
             <HeaderBreadcrumbs
               heading={!isEdit ? 'Tạo sản phẩm' : 'Chỉnh sửa sản phẩm'}
               links={[
-                { name: 'Dashboard', href: PATH_DASHBOARD.root },
-                { name: 'Products', href: PATH_DASHBOARD.product.list },
-                { name: !isEdit ? 'New product' : capitalCase('') },
+                { name: 'Trang chủ', href: PATH_DASHBOARD.root },
+                { name: 'Sản phẩm', href: PATH_DASHBOARD.product.list },
+                { name: !isEdit ? 'Sản phẩm mới' : `${id}` },
               ]}
             />
           }
