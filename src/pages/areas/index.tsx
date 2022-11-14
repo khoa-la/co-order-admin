@@ -18,6 +18,8 @@ import { useSnackbar } from 'notistack';
 import { get } from 'lodash';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Label from 'components/Label';
+import { Badge } from 'antd';
 
 function AreaListPage() {
   // const { data: user } = useQuery(['areas'], () => areaApi.getAreas, {
@@ -66,21 +68,43 @@ function AreaListPage() {
       title: 'Phí ship',
       dataIndex: 'shippingFee',
     },
+    {
+      title: 'Kích hoạt',
+      dataIndex: 'active',
+      hideInSearch: true,
+      render: (value: any, data: any, index: any) => {
+        <Label color={value === true ? 'success' : 'error'}>{String(value)}</Label>;
+      },
+    },
     // {
-    //   title: 'Kích hoạt',
+    //   title: 'Trạng thái',
     //   dataIndex: 'active',
-    //   hideInSearch: true,
-    //   render: (active: any) => {
-    //     <Iconify
-    //       icon={active ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
-    //       sx={{
-    //         width: 20,
-    //         height: 20,
-    //         color: 'success.main',
-    //         ...(!active && { color: 'warning.main' }),
-    //       }}
-    //     />;
+    //   width: 150,
+    //   valueEnum: {
+    //     true: { text: 'Đang bán', status: 'Processing' },
+    //     false: { text: 'Không bán', status: 'Error' },
     //   },
+    //   valueType: 'select',
+    //   // render: (_: any, { active }: any) => (
+    //   //   // <Badge
+    //   //   //   status={prod.is_available ? 'processing' : 'default'}
+    //   //   //   text={prod.is_available ? 'Đang bán' : 'Không bán'}
+    //   //   // />
+    //   //   <Label color={active === true ? 'success' : 'error'}>{active}</Label>;
+    //   // ),
+    //   // render: (value: any, data: any, index: any) => {
+    //   //   <Label color={data?.active ? 'success' : 'error'}>{data?.active ? 'a' : 'b'}</Label>;
+    //   // },
+    //   render: (_: any, prod: any) => (
+    //     <Badge
+    //       status={prod?.active ? 'processing' : 'default'}
+    //       text={prod?.active ? 'Đang bán' : 'Không bán'}
+    //     />
+    //   ),
+    //   // renderFormItem: (item, props) => {
+    //   //   return <SelectIsValiable {...props} />;
+    //   // },
+    //   // sorter: (a) => a.is_available,
     // },
     {
       title: 'Ngày tạo',
@@ -98,12 +122,12 @@ function AreaListPage() {
         <HeaderBreadcrumbs
           heading=""
           links={[
-            { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
+            { name: `${translate('Trang chủ')}`, href: PATH_DASHBOARD.root },
             {
               name: `Khu vực`,
               href: PATH_DASHBOARD.area.root,
             },
-            { name: `${translate('list')}` },
+            { name: `${translate('Danh sách')}` },
           ]}
         />
       }

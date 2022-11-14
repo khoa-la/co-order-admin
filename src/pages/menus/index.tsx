@@ -3,6 +3,7 @@ import menuApi from 'apis/menu';
 import DeleteConfirmDialog from 'components/DeleteConfirmDialog';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Iconify from 'components/Iconify';
+import Label from 'components/Label';
 import Page from 'components/Page';
 import ResoTable from 'components/table/reso-table/ResoTable';
 import useLocales from 'hooks/useLocales';
@@ -13,6 +14,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { PATH_DASHBOARD } from 'routes/paths';
 import { TMenu } from 'types/menu';
+import { MenuTypeEnums } from 'utils/enums';
 
 function MenuListPage() {
   const { translate } = useLocales();
@@ -60,6 +62,14 @@ function MenuListPage() {
     {
       title: 'Dạng menu',
       dataIndex: 'type',
+      hideInSearch: true,
+      render(value: any, data: any, index: any) {
+        return (
+          <Label color={data?.type === MenuTypeEnums.NORMAL ? 'info' : 'warning'}>
+            {data?.type === MenuTypeEnums.NORMAL ? 'Thường' : 'Đặc biệt'}
+          </Label>
+        );
+      },
     },
     {
       title: 'Ngày tạo',
@@ -71,18 +81,18 @@ function MenuListPage() {
 
   return (
     <Page
-      title={`Menu`}
+      title={`Thực đơn`}
       isTable
       content={
         <HeaderBreadcrumbs
           heading=""
           links={[
-            { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
+            { name: `${translate('Trang chủ')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Menus`,
+              name: `Thực đơn`,
               href: PATH_DASHBOARD.menu.root,
             },
-            { name: `${translate('list')}` },
+            { name: `${translate('Danh sách')}` },
           ]}
         />
       }

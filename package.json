@@ -63,6 +63,7 @@
     "@turf/bbox": "^6.5.0",
     "ahooks": "^2.10.9",
     "amazon-cognito-identity-js": "^5.2.8",
+    "antd": "^4.24.2",
     "apexcharts": "^3.35.0",
     "assert": "^2.0.0",
     "autosuggest-highlight": "^3.2.1",

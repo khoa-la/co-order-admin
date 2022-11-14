@@ -51,12 +51,12 @@ function ProductListPage() {
         <HeaderBreadcrumbs
           heading=""
           links={[
-            { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
+            { name: `${translate('Trang chủ')}`, href: PATH_DASHBOARD.root },
             {
               name: `Sản phẩm`,
-              href: PATH_DASHBOARD.area.root,
+              href: PATH_DASHBOARD.product.root,
             },
-            { name: `${translate('list')}` },
+            { name: `${translate('Danh sách')}` },
           ]}
         />
       }

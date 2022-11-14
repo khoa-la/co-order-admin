@@ -84,12 +84,12 @@ function CategoryListPage() {
         <HeaderBreadcrumbs
           heading=""
           links={[
-            { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
+            { name: `${translate('Trang chủ')}`, href: PATH_DASHBOARD.root },
             {
               name: `Danh mục`,
-              href: PATH_DASHBOARD.area.root,
+              href: PATH_DASHBOARD.category.root,
             },
-            { name: `${translate('list')}` },
+            { name: `${translate('Danh sách')}` },
           ]}
         />
       }

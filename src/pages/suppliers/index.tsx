@@ -83,12 +83,12 @@ function SupplierListPage() {
         <HeaderBreadcrumbs
           heading=""
           links={[
-            { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
+            { name: `${translate('Trang chủ')}`, href: PATH_DASHBOARD.root },
             {
               name: `Nhà cung cấp`,
               href: PATH_DASHBOARD.supplier.root,
             },
-            { name: `${translate('list')}` },
+            { name: `${translate('Danh sách')}` },
           ]}
         />
       }

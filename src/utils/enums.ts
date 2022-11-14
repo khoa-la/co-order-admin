@@ -1,4 +1,4 @@
-enum ProductTypeEnums {
+export enum ProductTypeEnums {
   SINGLE = 'SINGLE',
   EXTRA = 'EXTRA',
   GIFT = 'GIFT',
@@ -11,7 +11,7 @@ export enum OrderStatusEnums {
   CANCELED = 'CANCELED',
 }
 
-enum OrderTypeEnums {
+export enum OrderTypeEnums {
   NORMAL = 'NORMAL',
   PARTY = 'PARTY',
 }
@@ -57,7 +57,7 @@ enum MenuHourFilterEnums {
   DINNER = 'DINNER',
 }
 
-enum MenuTypeEnums {
+export enum MenuTypeEnums {
   NORMAL = 'NORMAL',
 }
 

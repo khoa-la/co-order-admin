@@ -6,6 +6,6 @@ export type TArea = {
   shippingFee: number;
   description: string;
   createdDate: string;
-  active: number;
+  active: string;
   locations: TLocation[];
 };

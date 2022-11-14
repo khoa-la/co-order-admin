@@ -1,4 +1,6 @@
 import Avatar from 'components/Avatar';
+import Label from 'components/Label';
+import { ProductTypeEnums } from 'utils/enums';
 
 export const productComlumns = [
   {
@@ -25,6 +27,26 @@ export const productComlumns = [
   {
     title: 'Loại',
     dataIndex: 'type',
+    hideInSearch: true,
+    render(value: any, data: any, index: any) {
+      return (
+        <Label
+          color={
+            data?.type === ProductTypeEnums.EXTRA
+              ? 'info'
+              : data?.type === ProductTypeEnums.GIFT
+              ? 'secondary'
+              : 'warning'
+          }
+        >
+          {data?.type === ProductTypeEnums.EXTRA
+            ? 'Sản phẩm con'
+            : data?.type === ProductTypeEnums.GIFT
+            ? 'Quà tặng'
+            : 'Sản phẩm đơn'}
+        </Label>
+      );
+    },
   },
   {
     title: 'Ngày cập nhật',

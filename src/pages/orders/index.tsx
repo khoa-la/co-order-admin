@@ -19,7 +19,7 @@ import { get } from 'lodash';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Label from 'components/Label';
-import { OrderStatusEnums } from 'utils/enums';
+import { OrderStatusEnums, OrderTypeEnums } from 'utils/enums';
 
 function OrderListPage() {
   const { translate } = useLocales();
@@ -68,6 +68,13 @@ function OrderListPage() {
       title: 'Dạng đơn hàng',
       dataIndex: 'type',
       hideInSearch: true,
+      render(value: any, data: any, index: any) {
+        return (
+          <Label color={data?.type === OrderTypeEnums.PARTY ? 'info' : 'warning'}>
+            {data?.type === OrderTypeEnums.PARTY ? 'Đơn chung' : 'Đơn thường'}
+          </Label>
+        );
+      },
     },
     {
       title: 'Thành tiền',
@@ -93,7 +100,13 @@ function OrderListPage() {
                 : 'error'
             }
           >
-            {data?.status}
+            {data?.status === OrderStatusEnums.WAITING
+              ? 'Chờ xác nhận'
+              : data?.status === OrderStatusEnums.PENDING
+              ? 'Đang thực hiện'
+              : data?.status === OrderStatusEnums.FINISHED
+              ? 'Hoàn thành'
+              : 'Đã huỷ'}
           </Label>
         );
       },
@@ -108,18 +121,18 @@ function OrderListPage() {
 
   return (
     <Page
-      title={`Order`}
+      title={`Đơn hàng`}
       isTable
       content={
         <HeaderBreadcrumbs
           heading=""
           links={[
-            { name: `${translate('Dashboard')}`, href: PATH_DASHBOARD.root },
+            { name: `${translate('Trang chủ')}`, href: PATH_DASHBOARD.root },
             {
-              name: `Orders`,
+              name: `Đơn hàng`,
               href: PATH_DASHBOARD.order.root,
             },
-            { name: `${translate('list')}` },
+            { name: `${translate('Danh sách')}` },
           ]}
         />
       }
@@ -133,7 +146,7 @@ function OrderListPage() {
           //   }}
           // onView={(menu: any) => navigate(`${PATH_DASHBOARD.menu.root}/${menu.id}`)}
           getData={orderApi.getOrders}
-          onDelete={setCurrentItem}
+          // onDelete={setCurrentItem}
           columns={columns}
         />
       </Stack>
