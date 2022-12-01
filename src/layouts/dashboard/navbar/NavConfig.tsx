@@ -31,16 +31,17 @@ const ICONS = {
 const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
-  // {
-  //   subheader: 'general',
-  //   items: [
-  //     { title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
-  //     { title: 'ecommerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
-  //     { title: 'analytics', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
-  //     { title: 'banking', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
-  //     { title: 'booking', path: PATH_DASHBOARD.general.booking, icon: ICONS.booking },
-  //   ],
-  // },
+  {
+    subheader: 'general',
+    items: [
+      // { title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
+      { title: 'report', path: PATH_DASHBOARD.report.root, icon: ICONS.calendar },
+      // { title: 'ecommerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
+      // { title: 'analytics', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
+      // { title: 'banking', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
+      // { title: 'booking', path: PATH_DASHBOARD.general.booking, icon: ICONS.booking },
+    ],
+  },
 
   // MANAGEMENT
   // ----------------------------------------------------------------------

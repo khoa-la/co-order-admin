@@ -139,6 +139,10 @@ export const PATH_DASHBOARD = {
     list: path(ROOTS_DASHBOARD, '/order/list'),
     view: (id: string) => path(ROOTS_DASHBOARD, `/supplier/${id}`),
   },
+  report: {
+    root: path(ROOTS_DASHBOARD, '/report'),
+    list: path(ROOTS_DASHBOARD, '/report/list'),
+  },
 };
 
 export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';

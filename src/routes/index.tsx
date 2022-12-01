@@ -73,6 +73,7 @@ export default function Router() {
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         { path: 'app', element: <GeneralApp /> },
+        { path: 'report', element: <ReportList /> },
         { path: 'ecommerce', element: <GeneralEcommerce /> },
         { path: 'analytics', element: <GeneralAnalytics /> },
         { path: 'banking', element: <GeneralBanking /> },
@@ -323,3 +324,4 @@ const ProductCreateUpdate = Loadable(lazy(() => import('../pages/products/Produc
 const SupplierList = Loadable(lazy(() => import('../pages/suppliers')));
 const SupplierCreateUpdate = Loadable(lazy(() => import('../pages/suppliers/SupplierNewEditForm')));
 const OrderList = Loadable(lazy(() => import('../pages/orders')));
+const ReportList = Loadable(lazy(() => import('../pages/reports')));
